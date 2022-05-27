@@ -1,2 +1,4 @@
-# IT202-451-M22
-Summer Class 2022 
+# IT202-451
+
+Timothy Estrada
+CS Student in pursuit of becoming a Full Stack Developer
