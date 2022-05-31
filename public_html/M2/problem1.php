@@ -9,6 +9,8 @@ function processArray($arr)
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     echo "<br>Odds output:<br>";
     //TODO add logic here to echo out only odd values
+    // UCID: the4 Date:5/30/2022 
+    // Itterated through the array and if the value is odd then echo it out.
     foreach ($arr as $value) {
         if ($value % 2 != 0) {
             echo $value . " ";

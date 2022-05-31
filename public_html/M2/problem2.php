@@ -8,11 +8,14 @@ function getTotal($arr)
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     $total = 0.00;
     //TODO do adding here
+    // UCID: the4 Date:5/30/2022 
+    // Itterated through the array and added all the values together.
     foreach ($arr as $value) {
         $total += $value;
     }
     //TODO do rounding stuff here
-    $total = round($total, 2);
+    // Total is rounded to exactly 2 decimal places.
+    $total = number_format($total, 2);
     echo "The total is " . var_export($total, true);
 }
 echo "Problem 2: Adding Floats<br>";

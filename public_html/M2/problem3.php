@@ -9,8 +9,12 @@ function bePositive($arr)
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     echo "<br>Positive output:<br>";
     //TODO use echo to output all of the values as positive (even if they were originally positive)
+    // UCID: the4 Date:5/30/2022
+    // Itterated through the array and if the value is negative then echo it out as a positive.
     foreach ($arr as $value) {
-        if ($value < 0) {
+        if ($value < 0 && gettype($value) == "string") {
+            $value = substr($value, 1);
+        } else if ($value < 0) {
             $value = $value * -1;
         }
         echo $value . " ";
