@@ -17,8 +17,8 @@
           let pages = document.getElementsByTagName("a");
           Array.from(pages).forEach((page) => {
             page.onclick = () => {
-              console.log("clicked on " + page.innerText);
-              updateCurrentPage(page.innerText);
+              console.log("clicked on " + page.innerText); // wrote this to help with debugging
+              updateCurrentPage(page.innerText); // Updates the title and H1 tag to reflect the current page
             };
           });
         }, 100);
