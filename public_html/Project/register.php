@@ -1,5 +1,6 @@
-<?php require_once(__DIR__ . "/../../lib/function.php"); ?>
-<link rel="stylesheet" href="Styles/register.css" />
+<?php require_once(__DIR__ . "/../../partials/nav.php"); ?>
+<link rel="stylesheet" href="Styles/form.css" />
+<link rel="stylesheet" href="Styles/nav.css">
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email</label>
@@ -19,6 +20,23 @@
     <input type="submit" value="Register" />
 </form>
 <script>
+    //Checks if All fields are filled to change the color of the submit button
+    const registerButton = () => {
+        const inputs = document.querySelectorAll("input");
+        let filled = true;
+        inputs.forEach(input => {
+            if (input.value === "") {
+                filled = false;
+            }
+        });
+        //Change Color of Submit Button
+        if (filled) {
+            document.querySelector("input[type='submit']").style.backgroundColor = "#1AA7EC";
+        } else {
+            document.querySelector("input[type='submit']").style.backgroundColor = "lightgrey";
+        }
+    };
+
     function validate(form) {
         //TODO 1: implement JavaScript validation
         let Valid = true;
@@ -59,12 +77,11 @@
             document.getElementById("invalid_pw").innerHTML = "";
         }
         //ensure it returns false for an error and true for success
-        if (Valid) {
-            return true;
-        } else {
-            return false;
-        }
+        return Valid;
     }
+
+    //Event Listener for when the user types in the form
+    document.querySelector("form").addEventListener("input", registerButton);
 </script>
 
 <?php
@@ -104,7 +121,21 @@ if (isset($_POST['email']) && $_POST['password'] && $_POST['confirm']) {
         echo "Passwords do not match";
     }
     if (!$hasError) {
-        echo "Success! Welcome , $email";
+        //TODO 4: PASSWORD HASHING
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+        $db = getDB();
+        $stmt = $db->prepare("INSERT INTO Users (email, password) VALUES (:email, :password)");
+        try {
+            $stmt->execute([
+                ':email' => $email,
+                ':password' => $hash
+            ]);
+            echo "<div class='registerMessage'> Successfully Registered!</div>";
+            //Hide the form
+            echo "<script>document.querySelector('form').style.display = 'none';</script>";
+        } catch (Exception $e) {
+            echo "<div class='registerMessage'> Error: <pre> " . var_export($e, true) . "</pre></div>";
+        }
     }
 }
 ?>
