@@ -1,9 +1,4 @@
 <?php require(__DIR__ . "/../../partials/nav.php");
-// Checks if Users is already Loged IN and if so redirects to home.php
-if (isset($_SESSION["user"])) {
-    //redirect to home page
-    die(header("Location: /Project/home.php"));
-}
 ?>
 <link rel="stylesheet" href="Styles/form.css" />
 <link rel="stylesheet" href="Styles/nav.css">
@@ -87,13 +82,20 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         echo "Email must not be empty";
         $hasError = true;
     }
-    //sanitize
-    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    //validate
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Invalid email address";
+    //sanitize email
+    // $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    $email = sanitize_email($email);
+
+    //validate email
+    // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //     $hasError = true;
+    //     echo "Email is invalid! Enter a valid email address";
+    // }
+    if (!is_valid_email($email)) {
         $hasError = true;
+        echo "Email is invalid! Enter a valid email address";
     }
+
     if (empty($password)) {
         echo "password must not be empty";
         $hasError = true;

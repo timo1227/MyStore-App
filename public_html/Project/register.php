@@ -97,9 +97,15 @@ if (isset($_POST['email']) && $_POST['password'] && $_POST['confirm']) {
         echo "Email is required";
     }
     //sanitize email
-    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    // $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    $email = sanitize_email($email);
+
     //validate email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //     $hasError = true;
+    //     echo "Email is invalid! Enter a valid email address";
+    // }
+    if (!is_valid_email($email)) {
         $hasError = true;
         echo "Email is invalid! Enter a valid email address";
     }
