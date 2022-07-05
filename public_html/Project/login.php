@@ -1,4 +1,10 @@
-<?php require(__DIR__ . "/../../partials/nav.php"); ?>
+<?php require(__DIR__ . "/../../partials/nav.php");
+// Checks if Users is already Loged IN and if so redirects to home.php
+if (isset($_SESSION["user"])) {
+    //redirect to home page
+    die(header("Location: /Project/home.php"));
+}
+?>
 <link rel="stylesheet" href="Styles/form.css" />
 <link rel="stylesheet" href="Styles/nav.css">
 <form onsubmit="return validate(this)" method="POST">
@@ -107,7 +113,9 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                 $hash = $user["password"];
                 unset($user["password"]);
                 if (password_verify($password, $hash)) {
-                    echo "Welcome $email";
+                    $_SESSION["user"] = $user;
+                    //redirect to home page
+                    die(header("Location: /Project/home.php"));
                 } else {
                     echo "Invalid password";
                 }
