@@ -1,0 +1,32 @@
+nav {
+    display: flex;
+    margin: 10px 0px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:20px;
+    flex-wrap: nowrap;
+}
+
+nav li {
+    list-style: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+}
+
+nav a:hover {
+    color: rgb(0, 174, 255);
+}
