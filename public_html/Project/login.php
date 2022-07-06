@@ -2,8 +2,8 @@
 ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" required />
+        <label for="email">Username</label>
+        <input type="text" name="email" required />
         <div class="FormMessage" id="invalid_Emial"></div>
     </div>
     <div>
@@ -23,16 +23,19 @@
             /^(([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         let pw = form.password.value;
+        let UsernameRegex = /^[a-z0-9_-]{3,30}$/;
 
-        //Check email address
+        //Check if email or Username
         if (email.length == 0) {
             document.getElementById("invalid_Emial").innerHTML =
-                "Email is required";
+                "Username is required";
             Valid = false;
         } else if (!re.test(email)) {
-            document.getElementById("invalid_Emial").innerHTML =
-                "Email is invalid";
-            Valid = false;
+            if (!UsernameRegex.test(email)) {
+                document.getElementById("invalid_Emial").innerHTML =
+                    "Username is invalid";
+                Valid = false;
+            }
         } else {
             document.getElementById("invalid_Emial").innerHTML = "";
         }
@@ -80,17 +83,18 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         flash("Email must not be empty");
         $hasError = true;
     }
-    //sanitize
-    //$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    $email = sanitize_email($email);
-    //validate
-    /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        flash("Invalid email address");
-        $hasError = true;
-    }*/
-    if (!is_valid_email($email)) {
-        flash("Invalid email address");
-        $hasError = true;
+    if (str_contains($email, "@")) {
+        //sanitize
+        $email = sanitize_email($email);
+        if (!is_valid_email($email)) {
+            flash("Invalid email address");
+            $hasError = true;
+        }
+    } else {
+        if (!is_valid_username($email)) {
+            flash("Invalid username");
+            $hasError = true;
+        }
     }
     if (empty($password)) {
         flash("password must not be empty");
@@ -105,7 +109,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         //TODO 4
         $db = getDB();
         $stmt = $db->prepare("SELECT id, email, username, password from Users 
-        where email = :email");
+        where email = :email or username = :email");
         try {
             $r = $stmt->execute([":email" => $email]);
             if ($r) {
@@ -114,19 +118,16 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                     $hash = $user["password"];
                     unset($user["password"]);
                     if (password_verify($password, $hash)) {
+                        //flash("Weclome $email");
                         $_SESSION["user"] = $user; //sets our session data from db
-                        try {
-                            //lookup potential roles
-                            $stmt = $db->prepare("SELECT Roles.name FROM Roles 
+                        //lookup potential roles
+                        $stmt = $db->prepare("SELECT Roles.name FROM Roles 
                         JOIN UserRoles on Roles.id = UserRoles.role_id 
                         where UserRoles.user_id = :user_id and Roles.is_active = 1 and UserRoles.is_active = 1");
-                            $stmt->execute([":user_id" => $user["id"]]);
-                            $roles = $stmt->fetchAll(PDO::FETCH_ASSOC); //fetch all since we'll want multiple
-                        } catch (Exception $e) {
-                            error_log(var_export($e, true));
-                        }
+                        $stmt->execute([":user_id" => $user["id"]]);
+                        $roles = $stmt->fetchAll(PDO::FETCH_ASSOC); //fetch all since we'll want multiple
                         //save roles or empty array
-                        if (isset($roles)) {
+                        if ($roles) {
                             $_SESSION["user"]["roles"] = $roles; //at least 1 role
                         } else {
                             $_SESSION["user"]["roles"] = []; //no roles
@@ -137,7 +138,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                         flash("Invalid password");
                     }
                 } else {
-                    flash("Email not found");
+                    flash("Username not found");
                 }
             }
         } catch (Exception $e) {
