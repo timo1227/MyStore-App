@@ -29,15 +29,15 @@
     - Link to related .md file: [Link Name](link url)
   - [x] \(07/04/22 of completion) Basic security rules implemented
     - Link to related .md file: [Link Name](link url)
-  - [x] \(07/05/22 of completion) Basic Roles implemented
+  - [x] \(07/06/22 of completion) Basic Roles implemented
     - Link to related .md file: [Link Name](link url)
-  - [ ] \(mm/dd/yyyy of completion) Site should have basic styles/theme applied; everything should be styled
+  - [x] \(07/05/22 of completion) Site should have basic styles/theme applied; everything should be styled
     - Link to related .md file: [Link Name](link url)
-  - [ ] \(mm/dd/yyyy of completion) Any output messages/errors should be “user friendly”
+  - [x] \(07/05/22 of completion) Any output messages/errors should be “user friendly”
     - Link to related .md file: [Link Name](link url)
-  - [ ] \(mm/dd/yyyy of completion) User will be able to see their profile
+  - [x] \(07/05/22 of completion) User will be able to see their profile
     - Link to related .md file: [Link Name](link url)
-  - [ ] \(mm/dd/yyyy of completion) User will be able to edit their profile
+  - [x] \(07/05/22 of completion) User will be able to edit their profile
     - Link to related .md file: [Link Name](link url)
 - Milestone 2
   - (duplicate template here for Milestone 1 features)
