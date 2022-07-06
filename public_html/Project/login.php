@@ -6,12 +6,12 @@
     <div>
         <label for="email">Email</label>
         <input type="email" name="email" required />
-        <div class="Alert" id="invalid_Emial"></div>
+        <div class="FormMessage" id="invalid_Emial"></div>
     </div>
     <div>
         <label for="pw">Password</label>
         <input type="password" id="pw" name="password" required minlength="8" />
-        <div class="Alert" id="invalid_pw"></div>
+        <div class="FormMessage" id="invalid_pw"></div>
     </div>
     <input type="submit" value="Login" />
 </form>
@@ -79,7 +79,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     //TODO 3
     $hasError = false;
     if (empty($email)) {
-        echo "Email must not be empty";
+        flash("Email must not be empty");
         $hasError = true;
     }
     //sanitize email
@@ -89,25 +89,25 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     //validate email
     // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     //     $hasError = true;
-    //     echo "Email is invalid! Enter a valid email address";
+    //     flash("Email is invalid! Enter a valid email address");
     // }
     if (!is_valid_email($email)) {
         $hasError = true;
-        echo "Email is invalid! Enter a valid email address";
+        flash("Email is invalid! Enter a valid email address");
     }
 
     if (empty($password)) {
-        echo "password must not be empty";
+        flash("password must not be empty");
         $hasError = true;
     }
     if (strlen($password) < 8) {
-        echo "Password too short";
+        flash("Password too short");
         $hasError = true;
     }
     if (!$hasError) {
         //TODO 4
         $db = getDB();
-        $stmt = $db->prepare("SELECT email, password FROM Users WHERE email = :email");
+        $stmt = $db->prepare("SELECT id, username , email, password FROM Users WHERE email = :email");
         try {
             $stmt->execute([":email" => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -119,14 +119,15 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                     //redirect to home page
                     die(header("Location: /Project/home.php"));
                 } else {
-                    echo "Invalid password";
+                    flash("Invalid password");
                 }
             } else {
-                echo "Email not found";
+                flash("Email not found");
             }
         } catch (Exception $e) {
-            echo "<div class='registerMessage'> Error: <pre> " . var_export($e, true) . "</pre></div>";
+            flash("Error: <pre> " . var_export($e, true) . "</pre>");
         }
     }
 }
 ?>
+<?php require_once(__DIR__ . "/../../partials/flash.php"); ?>
