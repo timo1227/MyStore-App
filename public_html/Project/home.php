@@ -1,14 +1,10 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
 ?>
-<link rel="stylesheet" href="Styles/form.css">
-<link rel="stylesheet" href="Styles/nav.css">
 <h1>Home</h1>
 <?php
-if (is_logged_in()) {
-    flash("Welcome, " . get_user_email() . "!");
-} else {
-    flash("You're not logged in");
+if (is_logged_in(true)) {
+    error_log("Session data: " . var_export($_SESSION, true));
 }
 ?>
 <?php require_once(__DIR__ . "/../../partials/flash.php"); ?>

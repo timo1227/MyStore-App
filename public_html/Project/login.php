@@ -1,7 +1,5 @@
 <?php require(__DIR__ . "/../../partials/nav.php");
 ?>
-<link rel="stylesheet" href="Styles/form.css" />
-<link rel="stylesheet" href="Styles/nav.css">
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email</label>
@@ -67,7 +65,7 @@
             document.querySelector("input[type='submit']").style.backgroundColor = "lightgrey";
         }
     };
-
+    //Checks if All fields are filled to change the color of the submit button
     document.querySelector("input[type='password']").addEventListener("keyup", ChgBtnColor);
 </script>
 <?php
@@ -116,6 +114,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                 unset($user["password"]);
                 if (password_verify($password, $hash)) {
                     $_SESSION["user"] = $user;
+                    flash("Welcome, " . get_username());
                     //redirect to home page
                     die(header("Location: /Project/home.php"));
                 } else {

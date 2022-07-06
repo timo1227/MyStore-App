@@ -1,6 +1,7 @@
-<?php require_once(__DIR__ . "/../../partials/nav.php"); ?>
-<link rel="stylesheet" href="Styles/form.css" />
-<link rel="stylesheet" href="Styles/nav.css">
+<?php
+require_once(__DIR__ . "/../../partials/nav.php");
+reset_session();
+?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Email</label>
@@ -109,68 +110,65 @@
 
 <?php
 //TODO 2: add PHP Code
-if (isset($_POST['email']) && $_POST['password'] && $_POST['confirm'] && $_POST['username']) {
-    $email = se($_POST, "email", "", false); //$_POST['email'];
-    $password = se($_POST, 'password', "", false); //$_POST['password'];
-    $confirm = se($_POST, 'confirm', "", false); //$_POST['confirm'];
-    $username = se($_POST, 'username', "", false); //$_POST['username'];
-    //TODO 3: add PHP Code
+if (isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"])) {
+    $email = se($_POST, "email", "", false);
+    $password = se($_POST, "password", "", false);
+    $confirm = se(
+        $_POST,
+        "confirm",
+        "",
+        false
+    );
+    $username = se($_POST, "username", "", false);
+    //TODO 3
     $hasError = false;
     if (empty($email)) {
+        flash("Email must not be empty", "danger");
         $hasError = true;
-        flash("Email is required");
     }
-    //sanitize email
-    // $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    //sanitize
     $email = sanitize_email($email);
-
-    //validate email
-    // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //     $hasError = true;
-    //     flash("Email is invalid! Enter a valid email address");
-    // }
+    //validate
     if (!is_valid_email($email)) {
+        flash("Invalid email address", "danger");
         $hasError = true;
-        flash("Email is invalid! Enter a valid email address");
     }
-    if (!preg_match("/^[a-z0-9_-]{3,30}$/", $username)) {
+    if (!is_valid_username($username)) {
+        flash("Username must only contain 3-16 characters a-z, 0-9, _, or -", "danger");
         $hasError = true;
-        flash("Username must be lowercase, alphanumeric, can only contain _ or - , and be 3 to 30 characters long ", 'warning');
     }
     if (empty($password)) {
+        flash("password must not be empty", "danger");
         $hasError = true;
-        flash("Password is required");
     }
     if (empty($confirm)) {
+        flash("Confirm password must not be empty", "danger");
         $hasError = true;
-        flash("Confirm is required");
     }
-    if (strlen($password) < 8) {
+    if (!is_valid_password($password)) {
+        flash("Password too short", "danger");
         $hasError = true;
-        flash("Password must be at least 8 characters");
     }
-    if (strlen($password) > 0 && $password != $confirm) {
+    if (
+        strlen($password) > 0 && $password !== $confirm
+    ) {
+        flash("Passwords must match", "danger");
         $hasError = true;
-        flash("Passwords do not match");
     }
     if (!$hasError) {
-        //TODO 4: PASSWORD HASHING
+        //TODO 4
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $db = getDB();
-        $stmt = $db->prepare("INSERT INTO Users (email, username, password) VALUES (:email, :username, :password)");
+        $stmt = $db->prepare("INSERT INTO Users (email, password, username) VALUES(:email, :password, :username)");
         try {
-            $stmt->execute([
-                ':email' => $email,
-                ':username' => $username,
-                ':password' => $hash
-            ]);
-            flash("Successfully Registered!");
-            //Hide the form
-            echo "<script>document.querySelector('form').style.display = 'none';</script>";
+            $stmt->execute([":email" => $email, ":password" => $hash, ":username" => $username]);
+            flash("Successfully registered!", "success");
         } catch (Exception $e) {
-            flash("Error: <pre> " . var_export($e, true) . "</pre>");
+            users_check_duplicate($e->errorInfo);
         }
     }
 }
 ?>
-<?php require_once(__DIR__ . "/../../partials/flash.php"); ?>
+<?php
+require(__DIR__ . "/../../partials/flash.php");
+?>

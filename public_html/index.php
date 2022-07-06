@@ -1,6 +1,6 @@
 <?php echo "It works!"; ?>
 <html>
 <br>
-<a href="Project/register.php">Register</a>
+<a href="/Project">Project</a>
 
 </html>
