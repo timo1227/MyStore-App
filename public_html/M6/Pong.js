@@ -1,13 +1,41 @@
 // Canvas Pong
 
+//Getting Mouse Position 
+function getMousePos(canvas, event) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+    };
+}
+
+//Checks is Pointer is inside the Button Region
+function isInside(pos, rect){
+    return pos.x > rect.x && pos.x < rect.x+rect.w && pos.y < rect.y+rect.h && pos.y > rect.y
+}
+
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
+let Pig_Button = {
+  x:700,
+  y:711,
+  w:100,
+  h:14,
+}
+
+let Horse_Button = {
+  x:700,
+  y:652,
+  w:100,
+  h:14,
+}
+
 
 // Key Codes
-var W = 87;
-var S = 83;
-var UP = 38;
-var DOWN = 40;
+// var W = 87;
+// var S = 83;
+// var UP = 38;
+// var DOWN = 40;
 
 // Keep track of pressed keys
 var keys = {
@@ -16,7 +44,6 @@ var keys = {
   UP: false,
   DOWN: false
 };
-
 
 // Create a rectangle object - for paddles, ball, etc
 function makeRect(x, y, width, height, speed, color) {
@@ -54,6 +81,9 @@ var ball = makeRect(0, 0, ballLength, ballLength, ballSpeed, '#000000');
 ball.sX = ballSpeed;
 ball.sY = ballSpeed / 2;
 
+//Gamemode 
+let gamemode = 0;
+
 // Randomize initial direction
 if (Math.random() > 0.5) {
   ball.sX *= -1;
@@ -69,6 +99,8 @@ function resetBall() {
   ball.y = canvas.height / 2 - ball.w / 2;
   ball.sX = ballSpeed;
   ball.sY = ballSpeed / 2;
+
+  paddleWidth_Resize();
 }
 
 // Bounce the ball off of a paddle
@@ -92,43 +124,108 @@ function bounceBall() {
     }
   }
   ball.sX *= -1;
+  
+  paddleWidth_Resize();
 }
 
 // Listen for keydown events
-canvas.addEventListener('keydown', function(e) {
-  if (e.keyCode === W) {
+document.addEventListener('keydown', function(event) {
+  if(event.key === 'W' || event.key === 'w') {
     keys.W = true;
   }
-  if (e.keyCode === S) {
+  if(event.key == 'S' || event.key == 's') {
     keys.S = true;
   }
-  if (e.keyCode === UP) {
+  if(event.key === 'ArrowUp'){
     keys.UP = true;
   }
-  if (e.keyCode === DOWN) {
+  if(event.key === 'ArrowDown'){
     keys.DOWN = true;
   }
 });
 
+// canvas.addEventListener('keydown', function(e) {
+//   if (e.keyCode === W) {
+//     keys.W = true;
+//   }
+//   if (e.keyCode === S) {
+//     keys.S = true;
+//   }
+//   if (e.keyCode === UP) {
+//     keys.UP = true;
+//   }
+//   if (e.keyCode === DOWN) {
+//     keys.DOWN = true;
+//   }
+// });
+
 // Listen for keyup events
-canvas.addEventListener('keyup', function(e) {
-  if (e.keyCode === W) {
+
+document.addEventListener('keyup', function(event) {
+  if(event.key === 'W' || event.key === 'w') {
     keys.W = false;
   }
-  if (e.keyCode === S) {
+  if(event.key === 'S' || event.key === 's') {
     keys.S = false;
   }
-  if (e.keyCode === UP) {
+  if(event.key === 'ArrowUp'){
     keys.UP = false;
   }
-  if (e.keyCode === DOWN) {
+  if(event.key === 'ArrowDown'){
     keys.DOWN = false;
   }
 });
+function GameModes_Button(event){
+  let gamemode_selected = false;
+  let mousePos = getMousePos(canvas, event);
+
+    if(isInside(mousePos, Horse_Button)){
+      gamemode = 1;
+      gamemode_selected = true;
+      document.getElementById('ballspeed').innerHTML = `Gamemode 1: Horse`;
+    }
+    if(isInside(mousePos, Pig_Button)){
+      gamemode = 2;
+      gamemode_selected = true;
+      document.getElementById('ballspeed').innerHTML = `Gamemode 2: Pig`;
+    }
+
+    if (gamemode_selected){
+      //Remove Buttons
+      context.clearRect(Pig_Button.x, Pig_Button.y, Pig_Button.w, Pig_Button.h);
+      context.clearRect(Horse_Button.x, Horse_Button.y, Horse_Button.w, Horse_Button.h);
+      //Start the game
+      startGame();
+    }
+    else {
+      context.fillStyle = 'red';
+      context.textAlign = 'center';
+      context.fillText('Select Game Mode', canvas.width / 2, canvas.height / 2);
+    }
+}
+// canvas.addEventListener('keyup', function(e) {
+//   if (e.keyCode === W) {
+//     keys.W = false;
+//   }
+//   if (e.keyCode === S) {
+//     keys.S = false;
+//   }
+//   if (e.keyCode === UP) {
+//     keys.UP = false;
+//   }
+//   if (e.keyCode === DOWN) {
+//     keys.DOWN = false;
+//   }
+// });
 
 // Show the menu
 function menu() {
   erase();
+
+  context.rect(Pig_Button.x, Pig_Button.y, Pig_Button.w, Pig_Button.h);
+  context.rect(Horse_Button.x, Horse_Button.y, Horse_Button.w, Horse_Button.h);
+  context.fill();
+
   // Show the menu
   context.fillStyle = '#000000';
   context.font = '24px Arial';
@@ -141,18 +238,27 @@ function menu() {
   context.fillText('Player 1: W (up) and S (down)', 5, (canvas.height / 3) * 2);
   context.textAlign = 'right';
   context.fillText('Player 2: UP (up) and DOWN (down)', canvas.width - 5, (canvas.height / 3) * 2);
+  // GameModes 
+  context.font = '14px Arial';
+  context.textAlign = 'left';
+  context.fillText('Game Modes:', 5, (canvas.height / 3) * 2.5);
+  context.textAlign = 'right';
+  context.fillText('1: Horse', canvas.width - 2, (canvas.height / 3) * 2.5);
+  context.fillText('2: Pig', canvas.width - 2, (canvas.height / 3) * 2.7);
+
   // Start the game on a click
-  canvas.addEventListener('click', startGame);
+  canvas.addEventListener('click', GameModes_Button);
 }
 
 // Start the game
 function startGame() {
 	// Don't accept any more clicks
-  canvas.removeEventListener('click', startGame);
+  canvas.removeEventListener('click', GameModes_Button);
   // Put the ball in place
   resetBall();
   // Kick off the game loop
   draw();
+  
 }
 
 // Show the end game screen
@@ -162,8 +268,22 @@ function endGame() {
   context.font = '24px Arial';
   context.textAlign = 'center';
   var winner = 1;
-  if (rightScore === 10) winner = 2;
+  if (gamemode == 1) {
+    if (rightScore === 5) winner = 2;
+  }
+  else if (gamemode == 2) {
+    if (rightScore === 3) winner = 2;
+  }
   context.fillText('Player ' + winner + ' wins!', canvas.width/2, canvas.height/2);
+  // Reset to Menu
+  canvas.addEventListener('click', () =>{
+    leftScore = 0;
+    rightScore = 0;
+    ballSpeed = 2;
+    menu();
+  });
+  
+  context.fillText('Click to return to menu', canvas.width/2, canvas.height/2 + 30);
 }
 
 // Clear the canvas
@@ -233,19 +353,123 @@ function draw() {
   context.fillStyle = '#000000';
   context.font = '24px Arial';
   context.textAlign = 'left';
-  context.fillText('Score: ' + leftScore, 5, 24);
-  context.textAlign = 'right';
-  context.fillText('Score: ' + rightScore, canvas.width - 5, 24);
-  // End the game or keep going
-  if (leftScore === 10 || rightScore === 10) {
-  	endGame();
-  } else {
-  	window.requestAnimationFrame(draw);
+
+  if(gamemode === 1){ 
+    switch (rightScore) {
+      case 0:
+        context.fillText('_ _ _ _ _', 5 , 24);
+        break;
+      case 1:
+        context.fillText('H _ _ _ _', 5 , 24);
+        break;
+      case 2:
+        context.fillText('H O _ _ _', 5 , 24);
+        break;
+      case 3:
+        context.fillText('H O R _ _', 5 , 24);
+        break;
+      case 4:
+        context.fillText('H O R S _', 5 , 24);
+        break;
+      case 5:
+        context.fillText('H O R S E', 5 , 24);
+        break;
+    }
+    context.textAlign = 'right';
+    switch (leftScore) {
+      case 0:
+        context.fillText('_ _ _ _ _', canvas.width - 5 , 24);
+        break;
+      case 1:
+        context.fillText('H _ _ _ _', canvas.width - 5 , 24);
+        break;
+      case 2:
+        context.fillText('H O _ _ _', canvas.width - 5 , 24);
+        break;
+      case 3:
+        context.fillText('H O R _ _', canvas.width - 5 , 24);
+        break;
+      case 4:
+        context.fillText('H O R S _', canvas.width - 5 , 24);
+        break;
+      case 5:
+        context.fillText('H O R S E', canvas.width - 5 , 24);
+        break;
+    }
+    // context.fillText('Score: ' + leftScore, 5, 24);
+    // context.textAlign = 'right';
+    // context.fillText('Score: ' + rightScore, canvas.width - 5, 24);
+    // End the game or keep going
+    if (leftScore === 5 || rightScore === 5) {
+      endGame();
+    } else {
+      window.requestAnimationFrame(draw);
+    }
   }
-}
+
+    if(gamemode === 2){
+      switch (rightScore) {
+        case 0:
+          context.fillText('_ _ _', 5 , 24);
+          break;
+        case 1:
+          context.fillText('P _ _', 5 , 24);
+          break;
+        case 2:
+          context.fillText('P I _', 5 , 24);
+          break;
+        case 3:
+          context.fillText('P I G', 5 , 24);
+          break;
+      }
+      context.textAlign = 'right';
+      switch (leftScore) {
+        case 0:
+          context.fillText('_ _ _', canvas.width - 5 , 24);
+          break;
+        case 1:
+          context.fillText('P _ _', canvas.width - 5 , 24);
+          break;
+        case 2:
+          context.fillText('P I _', canvas.width - 5 , 24);
+          break;
+        case 3:
+          context.fillText('P I G', canvas.width - 5 , 24);
+          break;
+      }
+      // End the game or keep going
+      if (leftScore === 3 || rightScore === 3) {
+        endGame();
+      }
+      else {
+        window.requestAnimationFrame(draw);
+      }
+  }
+  }
+
+// Reduce the size of the paddels when ball Speed > 5  
+const paddleWidth_Resize = () => {
+  if(Math.abs(ball.sX )>= 4 && leftPaddle.h > leftPaddle.h/2){
+    // leftPaddle.w = leftPaddle.w - 1;
+    leftPaddle.h = leftPaddle.h - 7.5;
+    // rightPaddle.w = rightPaddle.w - 1;
+    rightPaddle.h = rightPaddle.h - 7.5;
+  }
+  // Reset the paddles to their original size
+  if(Math.abs(ball.sX )< 4){
+    // leftPaddle.w = canvas.width / 20;
+    leftPaddle.h = 100;
+    // rightPaddle.w = canvas.width / 20;
+    rightPaddle.h = 100;
+  }
+} 
+
+
+
 const start = () => {
   menu();
   canvas.focus();
+
 }
 // Show the menu to start the game
-setTimeout(start, 1000);
+start();
