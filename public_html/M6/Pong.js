@@ -14,6 +14,8 @@ function isInside(pos, rect){
     return pos.x > rect.x && pos.x < rect.x+rect.w && pos.y < rect.y+rect.h && pos.y > rect.y
 }
 
+//the4 7-10-22
+
 var canvas = document.getElementById('canvas');
 var context = canvas.getContext('2d');
 let Pig_Button = {
@@ -353,7 +355,7 @@ function draw() {
   context.fillStyle = '#000000';
   context.font = '24px Arial';
   context.textAlign = 'left';
-
+  //the4 7-10-22
   if(gamemode === 1){ 
     switch (rightScore) {
       case 0:
@@ -447,9 +449,10 @@ function draw() {
   }
   }
 
-// Reduce the size of the paddels when ball Speed > 5  
+// Reduce the size of the paddels when ball Speed > 3  
+//the4 7-10-22
 const paddleWidth_Resize = () => {
-  if(Math.abs(ball.sX )>= 4 && leftPaddle.h > leftPaddle.h/2){
+  if(Math.abs(ball.sX) >= 4){
     // leftPaddle.w = leftPaddle.w - 1;
     leftPaddle.h = leftPaddle.h - 7.5;
     // rightPaddle.w = rightPaddle.w - 1;
@@ -464,12 +467,5 @@ const paddleWidth_Resize = () => {
   }
 } 
 
-
-
-const start = () => {
   menu();
   canvas.focus();
-
-}
-// Show the menu to start the game
-start();
