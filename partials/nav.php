@@ -115,14 +115,3 @@ session_start();
         </div>
     </div>
 </nav>
-
-<?php
-//check if session is set
-if (isset($_SESSION["user"])) {
-    $user = $_SESSION["user"];
-} else {
-    $user = null;
-}
-
-echo 'This ->' . $user;
-?>

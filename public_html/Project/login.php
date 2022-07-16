@@ -132,6 +132,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                             $_SESSION["user"]["roles"] = []; //no roles
                         }
                         flash("Welcome, " . get_username());
+                        echo $_SESSION["user"]["roles"];
                         die("<script>location.replace('home.php');</script>");
                     } else {
                         flash("Invalid password");
