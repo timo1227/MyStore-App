@@ -1,6 +1,5 @@
 <?php
 require_once(__DIR__ . "/../lib/functions.php");
-require_once '../vendor/autoload.php';
 // create a new persistent client
 $m = new Memcached("memcached_pool");
 $m->setOption(Memcached::OPT_BINARY_PROTOCOL, TRUE);
