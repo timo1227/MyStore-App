@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . "/../lib/functions.php");
-require('/../vendor/autoload.php');
+require('/app/vendor/autoload.php');
 
 use MemCachier\MemcacheSASL;
 
