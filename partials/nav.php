@@ -1,42 +1,41 @@
 <?php
 require_once(__DIR__ . "/../lib/functions.php");
-// create a new persistent client
+require('vendor/autoload.php');
+
+use MemCachier\MemcacheSASL;
+
+// Make MemCachier connection
+// ==========================
+
+// parse config
+$servers = explode(",", getenv("MEMCACHIER_SERVERS"));
+for ($i = 0; $i < count($servers); $i++) {
+    $servers[$i] = explode(":", $servers[$i]);
+}
+
+// Using Memcached client (recommended)
+// ------------------------------------
 $m = new Memcached("memcached_pool");
 $m->setOption(Memcached::OPT_BINARY_PROTOCOL, TRUE);
-
-// some nicer default options
-// - nicer TCP options
-$m->setOption(Memcached::OPT_TCP_NODELAY, TRUE);
-$m->setOption(Memcached::OPT_NO_BLOCK, FALSE);
-// - timeouts
-$m->setOption(Memcached::OPT_CONNECT_TIMEOUT, 2000);    // ms
-$m->setOption(Memcached::OPT_POLL_TIMEOUT, 2000);       // ms
-$m->setOption(Memcached::OPT_RECV_TIMEOUT, 750 * 1000); // us
-$m->setOption(Memcached::OPT_SEND_TIMEOUT, 750 * 1000); // us
-// - better failover
-$m->setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT);
-$m->setOption(Memcached::OPT_LIBKETAMA_COMPATIBLE, TRUE);
-$m->setOption(Memcached::OPT_RETRY_TIMEOUT, 2);
-$m->setOption(Memcached::OPT_SERVER_FAILURE_LIMIT, 1);
+// Enable no-block for some performance gains but less certainty that data has
+// been stored.
+$m->setOption(Memcached::OPT_NO_BLOCK, TRUE);
+// Failover automatically when host fails.
 $m->setOption(Memcached::OPT_AUTO_EJECT_HOSTS, TRUE);
+// Adjust timeouts.
+$m->setOption(Memcached::OPT_CONNECT_TIMEOUT, 2000);
+$m->setOption(Memcached::OPT_POLL_TIMEOUT, 2000);
+$m->setOption(Memcached::OPT_RETRY_TIMEOUT, 2);
 
-// setup authentication
-$m->setSaslAuthData(
-    getenv("MEMCACHIER_USERNAME"),
-    getenv("MEMCACHIER_PASSWORD")
-);
-
-// We use a consistent connection to memcached, so only add in the
-// servers first time through otherwise we end up duplicating our
-// connections to the server.
+$m->setSaslAuthData(getenv("MEMCACHIER_USERNAME"), getenv("MEMCACHIER_PASSWORD"));
 if (!$m->getServerList()) {
-    // parse server config
-    $servers = explode(",", getenv("MEMCACHIER_SERVERS"));
-    foreach ($servers as $s) {
-        $parts = explode(":", $s);
-        $m->addServer($parts[0], $parts[1]);
-    }
+    // We use a consistent connection to memcached, so only add in the servers
+    // first time through otherwise we end up duplicating our connections to the
+    // server.
+    $m->addServers($servers);
 }
+
+
 //Note: this is to resolve cookie issues with port numbers
 $domain = $_SERVER["HTTP_HOST"];
 if (strpos($domain, ":")) {
@@ -58,6 +57,9 @@ if (($localWorks && $domain == "localhost") || $domain != "localhost") {
     ]);
 }
 session_start();
+$_SESSION['test'] = 42;
+// check if session info saved in memcached
+var_dump($m->get("memc.sess.key." . session_id()));
 
 ?>
 <!-- include css and js files -->
