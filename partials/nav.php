@@ -57,9 +57,6 @@ if (!$m->getServerList()) {
 //     ]);
 // }
 session_start();
-$_SESSION['test'] = 42;
-// check if session info saved in memcached
-var_dump($m->get("memc.sess.key." . session_id()));
 
 ?>
 <!-- include css and js files -->
