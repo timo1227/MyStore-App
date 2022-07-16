@@ -94,6 +94,7 @@ $email = get_user_email();
 $username = get_username();
 ?>
 <form method="POST" onsubmit="return validate(this);">
+    <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Email/Username Reset</div>
     <div class="mb-3">
         <label for="email">Email</label>
         <input type="email" name="email" id="email" value="<?php se($email); ?>" />
@@ -103,7 +104,7 @@ $username = get_username();
         <input type="text" name="username" id="username" value="<?php se($username); ?>" />
     </div>
     <!-- DO NOT PRELOAD PASSWORD -->
-    <div style="text-align:center; font-size:22px; margin: 10px 0px;">Password Reset</div>
+    <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Password Reset</div>
     <div class="mb-3">
         <label for="cp">Current Password</label>
         <input type="password" name="currentPassword" id="cp" />

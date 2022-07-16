@@ -2,8 +2,11 @@
 
 html{
     margin: 0;
-    padding: 0px 10px;
     font-family: 'Rubik', sans-serif;
+    text-transform: capitalize;
+}
+body{
+    padding: 0px 10px;
 }
 form{
     margin: 100px auto;
@@ -64,8 +67,16 @@ th{
 }
 td{
     text-align: center;
+    padding: 0.5rem 0.5rem;
 }
 tr{
     border-bottom: rgba(127, 127, 127, 0.679) 2px solid;
     border-radius: 10px;
+}
+
+#Roles_Toggle{
+    margin: 10px auto;
+}
+#Active_Button{
+    background-color: #1AA7EC;
 }
