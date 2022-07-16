@@ -2,6 +2,7 @@
 
 html{
     margin: 0;
+    padding: 0px 10px;
     font-family: 'Rubik', sans-serif;
 }
 form{
@@ -52,4 +53,19 @@ table{
     border-spacing: 0;
     margin: 0 auto;
     row-gap: 10px;
+}
+
+th{
+    border-bottom: #000 3px solid;
+    border-radius: 10px;
+    color: black;
+    padding: 10px;
+    text-align: center;
+}
+td{
+    text-align: center;
+}
+tr{
+    border-bottom: rgba(127, 127, 127, 0.679) 2px solid;
+    border-radius: 10px;
 }
