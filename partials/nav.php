@@ -1,16 +1,5 @@
 <?php
 require_once(__DIR__ . "/../lib/functions.php");
-ini_set('session.save_handler', 'memcached');
-ini_set('session.save_path', getenv('MEMCACHIER_SERVERS'));
-if (version_compare(phpversion('memcached'), '3', '>=')) {
-    ini_set('memcached.sess_persistent', 1);
-    ini_set('memcached.sess_binary_protocol', 1);
-} else {
-    ini_set('session.save_path', 'PERSISTENT=myapp_session ' . ini_get('session.save_path'));
-    ini_set('memcached.sess_binary', 1);
-}
-ini_set('memcached.sess_sasl_username', getenv('MEMCACHIER_USERNAME'));
-ini_set('memcached.sess_sasl_password', getenv('MEMCACHIER_PASSWORD'));
 //Note: this is to resolve cookie issues with port numbers
 $domain = $_SERVER["HTTP_HOST"];
 if (strpos($domain, ":")) {
@@ -44,7 +33,7 @@ session_start();
 <nav class='navbar navbar-expand-lg navbar-light'>
     <div class="container-fluid">
         <a class="navbar-brand" href="<?php echo get_url('home.php'); ?>">
-            <img src="<?php echo get_url('Images/logo.48'); ?>" alt="logo" class="logo">
+            <img src="<?php echo get_url('Images/LOGO.48'); ?>" alt="logo" class="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -88,3 +77,12 @@ session_start();
         </div>
     </div>
 </nav>
+
+<?php
+
+if (!isset($_SESSION['count'])) {
+    $_SESSION['count'] = 0;
+}
+$_SESSION['count']++;
+
+echo "Hello #" . $_SESSION['count'];
