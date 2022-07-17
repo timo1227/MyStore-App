@@ -47,7 +47,7 @@ try {
 <h1>List Roles</h1>
 <form method="POST">
     <input type="search" name="role" placeholder="Role Filter" />
-    <input type="submit" value="Search" />
+    <input id='Active_Button' type="submit" value="Search" />
 </form>
 <table>
     <thead>
@@ -70,13 +70,13 @@ try {
                     <td><?php se($role, "description"); ?></td>
                     <td><?php echo (se($role, "is_active", 0, false) ? "active" : "disabled"); ?></td>
                     <td>
-                        <form method="POST">
+                        <form method="POST" id='Roles_Toggle'>
                             <input type="hidden" name="role_id" value="<?php se($role, 'id'); ?>" />
                             <?php if (isset($search) && !empty($search)) : ?>
                                 <?php /* if this is part of a search, lets persist the search criteria so it reloads correctly*/ ?>
                                 <input type="hidden" name="role" value="<?php se($search, null); ?>" />
                             <?php endif; ?>
-                            <input type="submit" value="Toggle" />
+                            <input id='Active_Button' type="submit" value="Toggle" />
                         </form>
                     </td>
                 </tr>
@@ -84,11 +84,6 @@ try {
         <?php endif; ?>
     </tbody>
 </table>
-<style>
-    input[type="submit"] {
-        background-color: #1AA7EC;
-    }
-</style>
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");

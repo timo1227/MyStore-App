@@ -1,5 +1,4 @@
-<?php require(__DIR__ . "/../../partials/nav.php");
-?>
+<?php require(__DIR__ . "/../../partials/nav.php"); ?>
 <form onsubmit="return validate(this)" method="POST">
     <div>
         <label for="email">Username</label>
@@ -133,7 +132,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                             $_SESSION["user"]["roles"] = []; //no roles
                         }
                         flash("Welcome, " . get_username());
-                        die(header("Location: home.php"));
+                        die("<script>location.replace('home.php');</script>");
                     } else {
                         flash("Invalid password");
                     }
