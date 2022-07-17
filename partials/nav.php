@@ -1,62 +1,62 @@
 <?php
 require_once(__DIR__ . "/../lib/functions.php");
-require('/app/vendor/autoload.php');
+if (file_exists('/app/vendor/autoload.php')) {
+    require_once('/app/vendor/autoload.php');
+    // Make MemCachier connection
+    // ==========================
 
-use MemCachier\MemcacheSASL;
+    // parse config
+    $servers = explode(",", getenv("MEMCACHIER_SERVERS"));
+    for ($i = 0; $i < count($servers); $i++) {
+        $servers[$i] = explode(":", $servers[$i]);
+    }
 
-// Make MemCachier connection
-// ==========================
+    // Using Memcached client (recommended)
+    // ------------------------------------
+    $m = new Memcached("memcached_pool");
+    $m->setOption(Memcached::OPT_BINARY_PROTOCOL, TRUE);
+    // Enable no-block for some performance gains but less certainty that data has
+    // been stored.
+    $m->setOption(Memcached::OPT_NO_BLOCK, TRUE);
+    // Failover automatically when host fails.
+    $m->setOption(Memcached::OPT_AUTO_EJECT_HOSTS, TRUE);
+    // Adjust timeouts.
+    $m->setOption(Memcached::OPT_CONNECT_TIMEOUT, 2000);
+    $m->setOption(Memcached::OPT_POLL_TIMEOUT, 2000);
+    $m->setOption(Memcached::OPT_RETRY_TIMEOUT, 2);
 
-// parse config
-$servers = explode(",", getenv("MEMCACHIER_SERVERS"));
-for ($i = 0; $i < count($servers); $i++) {
-    $servers[$i] = explode(":", $servers[$i]);
+    $m->setSaslAuthData(getenv("MEMCACHIER_USERNAME"), getenv("MEMCACHIER_PASSWORD"));
+    if (!$m->getServerList()) {
+        // We use a consistent connection to memcached, so only add in the servers
+        // first time through otherwise we end up duplicating our connections to the
+        // server.
+        $m->addServers($servers);
+    }
+
+    session_start();
+} else {
+    // Note: this is to resolve cookie issues with port numbers
+    $domain = $_SERVER["HTTP_HOST"];
+    if (strpos($domain, ":")) {
+        $domain = explode(":", $domain)[0];
+    }
+    $localWorks = true; //some people have issues with localhost for the cookie params
+    //if you're one of those people make this false
+
+    //this is an extra condition added to "resolve" the localhost issue for the session cookie
+    if (($localWorks && $domain == "localhost") || $domain != "localhost") {
+        session_set_cookie_params([
+            "lifetime" => 60 * 60,
+            "path" => "$BASE_PATH",
+            //"domain" => $_SERVER["HTTP_HOST"] || "localhost",
+            "domain" => $domain,
+            "secure" => true,
+            "httponly" => true,
+            "samesite" => "lax"
+        ]);
+    }
+    session_start();
 }
-
-// Using Memcached client (recommended)
-// ------------------------------------
-$m = new Memcached("memcached_pool");
-$m->setOption(Memcached::OPT_BINARY_PROTOCOL, TRUE);
-// Enable no-block for some performance gains but less certainty that data has
-// been stored.
-$m->setOption(Memcached::OPT_NO_BLOCK, TRUE);
-// Failover automatically when host fails.
-$m->setOption(Memcached::OPT_AUTO_EJECT_HOSTS, TRUE);
-// Adjust timeouts.
-$m->setOption(Memcached::OPT_CONNECT_TIMEOUT, 2000);
-$m->setOption(Memcached::OPT_POLL_TIMEOUT, 2000);
-$m->setOption(Memcached::OPT_RETRY_TIMEOUT, 2);
-
-$m->setSaslAuthData(getenv("MEMCACHIER_USERNAME"), getenv("MEMCACHIER_PASSWORD"));
-if (!$m->getServerList()) {
-    // We use a consistent connection to memcached, so only add in the servers
-    // first time through otherwise we end up duplicating our connections to the
-    // server.
-    $m->addServers($servers);
-}
-
-
-//Note: this is to resolve cookie issues with port numbers
-// $domain = $_SERVER["HTTP_HOST"];
-// if (strpos($domain, ":")) {
-//     $domain = explode(":", $domain)[0];
-// }
-// $localWorks = true; //some people have issues with localhost for the cookie params
-// //if you're one of those people make this false
-
-// //this is an extra condition added to "resolve" the localhost issue for the session cookie
-// if (($localWorks && $domain == "localhost") || $domain != "localhost") {
-//     session_set_cookie_params([
-//         "lifetime" => 60 * 60,
-//         "path" => "$BASE_PATH",
-//         //"domain" => $_SERVER["HTTP_HOST"] || "localhost",
-//         "domain" => $domain,
-//         "secure" => true,
-//         "httponly" => true,
-//         "samesite" => "lax"
-//     ]);
-// }
-session_start();
 
 ?>
 <!-- include css and js files -->
@@ -77,7 +77,7 @@ session_start();
         <div class="collapse navbar-collapse" id='navbarSupportedContent'>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (is_logged_in()) : ?>
-                    <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>">Home</a></li>
+                    <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>">Shop</a></li>
                     <li class="nav-item"><a href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
@@ -100,8 +100,7 @@ session_start();
                             Items
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="<?php echo get_url('admin/add_item.php'); ?>">Add Items</a></li>
-                            <li><a class="dropdown-item" href="<?php echo get_url('admin/#'); ?>">Delete Items</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/add_item.php'); ?>">Add Item</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_items.php'); ?>">List Items</a></li>
                         </ul>
                     </li>

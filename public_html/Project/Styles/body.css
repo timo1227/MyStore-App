@@ -8,6 +8,20 @@ html{
 body{
     padding: 0px 10px;
 }
+h1{
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 15px;
+}
+.main{
+    max-width: 1500px;
+}
+.cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap:125px;
+    width: 100%;
+}
 form{
     margin: 100px auto;
     width: 300px;
@@ -73,7 +87,34 @@ tr{
     border-bottom: rgba(127, 127, 127, 0.679) 2px solid;
     border-radius: 10px;
 }
-
+img {
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+    max-height: 350px;
+}
+.col{
+    max-width: fit-content;
+}
+.card{
+    border:none;
+    max-width: 310px;
+    min-width: 190px;
+    margin: 10px;
+}
+.card-img-top{
+    border-radius: 10px;
+}
+.card-body{
+    overflow: hidden;
+    background-color: white;
+}
+.card-footer{
+    background-color: inherit;
+    min-height: 7.5rem;
+    margin-top: 0.5rem;
+    border: none;
+}
 #Roles_Toggle{
     margin: 10px auto;
 }
