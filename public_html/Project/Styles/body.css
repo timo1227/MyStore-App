@@ -3,6 +3,36 @@
 html{
     margin: 0;
     font-family: 'Rubik', sans-serif;
+    text-transform: capitalize;
+}
+body{
+    padding: 0px 10px;
+}
+h1{
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 15px;
+}
+.main{
+    max-width: 1500px;
+}
+.options{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.options a{
+    text-decoration: none;
+    color: #000;
+    font-size: 15px;
+    font-weight: 600;
+}
+.cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap:125px;
+    width: 100%;
 }
 form{
     margin: 100px auto;
@@ -52,4 +82,92 @@ table{
     border-spacing: 0;
     margin: 0 auto;
     row-gap: 10px;
+}
+
+th{
+    border-bottom: #000 3px solid;
+    border-radius: 10px;
+    color: black;
+    padding: 10px;
+    text-align: center;
+}
+td{
+    text-align: center;
+    padding: 0.5rem 0.5rem;
+}
+tr{
+    border-bottom: rgba(127, 127, 127, 0.679) 2px solid;
+    border-radius: 10px;
+}
+img {
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+    max-height: 350px;
+}
+.col{
+    max-width: fit-content;
+}
+.card{
+    border:none;
+    max-width: 310px;
+    max-height: 520px;
+    overflow: hidden;
+    min-width: 190px;
+    margin: 10px;
+}
+.card-img-top{
+    border-radius: 10px;
+}
+.card-body{
+    overflow: hidden;
+    background-color: white;
+}
+.card-footer{
+    display: flex;
+    gap: 10px;
+    background-color: inherit;
+    margin: 0;
+    padding: 0;
+    min-height: 7.5rem;
+    margin-top: 0.5rem;
+    border: none;
+    align-items: center;
+}
+.quickAdd{
+    margin:0;
+    margin-left: auto;
+    height: fit-content;
+    width: fit-content;
+
+}
+.quickAddBtn{
+    font-size: 12px;
+    font-weight: 800;
+    margin-left: auto;
+    color: #ccc;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: #000 0px 0px 5px;
+    border: #ccc 1px solid;
+    width: 80px;
+    height: 30px;
+}
+.quickRemove{
+    margin:0;
+    text-align: center;
+    padding: 10px;
+    width: 200px;
+    height: fit-content;
+}
+.after_cart{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#Roles_Toggle{
+    margin: 10px auto;
+}
+#Active_Button{
+    background-color: #1AA7EC;
 }
