@@ -115,6 +115,10 @@ if (isset($_POST["username"])) {
         text-align: center;
     }
 
+    tr {
+        border-bottom: none !important;
+    }
+
     input[type='checkbox'] {
         width: fit-content;
         right: 0;
