@@ -1,4 +1,4 @@
-function flash(message = "", color = "info") {
+function flash (message = "", color = "info") {
     let flash = document.getElementById("flash");
     //create a div (or whatever wrapper we want)
     let outerDiv = document.createElement("div");
@@ -13,4 +13,204 @@ function flash(message = "", color = "info") {
     outerDiv.appendChild(innerDiv);
     //add the element to the DOM (if we don't it merely exists in memory)
     flash.appendChild(outerDiv);
+    clear_flashes();
 }
+let flash_timeout = null;
+function clear_flashes () {
+    let flash = document.getElementById("flash");
+    if (!flash_timeout && flash) {
+        flash_timeout = setTimeout(() => {
+            console.log("removing");
+            if (flash.children.length > 0) {
+                flash.children[0].remove();
+            }
+            flash_timeout = null;
+            if (flash.children.length > 0) {
+                clear_flashes();
+            }
+        }, 3000);
+    }
+}
+window.addEventListener("load", () => setTimeout(clear_flashes, 100));
+async function postData (data = {}, url = "/Project/api/game-backend.php") {
+
+    console.log(Object.keys(data).map(function (key) {
+        return "" + key + "=" + data[key]; // line break for wrapping only
+    }).join("&"));
+    let example = 1;
+    if (example === 1) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                //'Content-Type': 'application/json'
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: Object.keys(data).map(function (key) {
+                return "" + key + "=" + data[key]; // line break for wrapping only
+            }).join("&") //JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    } else if (example === 2) {
+        //making XMLHttpRequest awaitable
+        //https://stackoverflow.com/a/48969580
+        return new Promise(function (resolve, reject) {
+            let xhr = new XMLHttpRequest();
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.open("POST", url);
+            xhr.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    resolve(xhr.response);
+                } else {
+                    reject({
+                        status: this.status,
+                        statusText: xhr.statusText
+                    });
+                }
+            };
+            xhr.onerror = function () {
+                reject({
+                    status: this.status,
+                    statusText: xhr.statusText
+                });
+            };
+            xhr.send(Object.keys(data).map(function (key) {
+                return "" + key + "=" + data[key]; // line break for wrapping only
+            }).join("&"));
+        });
+    } else if (example === 3) {
+        //make jQuery awaitable
+        //https://petetasker.com/using-async-await-jquerys-ajax
+        //check if jQuery is present
+        // @ts-ignore
+        if (window.$) {
+            let result;
+
+            try {
+                // @ts-ignore
+                result = await $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: Object.keys(data).map(function (key) {
+                        return "" + key + "=" + data[key]; // line break for wrapping only
+                    }).join("&")
+                });
+
+                return result;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+}
+function purchase_cart() {
+        postData({}, "/Project/api/purchase_cart.php").then(data => {
+            console.log(data);
+            if (data.status === 200) {
+                flash(data.message, "success");
+            } else {
+                flash(data.message, "danger");
+            }
+            get_cart();
+            if (refresh_balance) {
+                refresh_balance();
+            }
+        })
+}
+function add_to_cart(item_id, quantity = 1) {
+        postData({
+            item_id: item_id,
+            desired_quantity: quantity
+        }, "/Project/api/add_to_cart.php").then(data => {
+            if (data.status === 200) {
+                flash(data.message, "success");
+            } else {
+                flash(data.message, "danger");
+            }
+        }).catch(e => {
+            flash("There was a problem adding the item to cart", "danger");
+        });
+   }
+
+       function filter(category) {
+        $.ajax({
+            url: "api/items.php",
+            method: "GET",
+            data: {
+                category: category
+            },
+            success: function(data) {
+                console.log(data);
+                flash(`Filtered to ${category}`, "success");
+                //set main div to hidden
+                //Build the HTML for the items
+                var html = "";
+                $("#cards").html(html); //clear out the cards div
+                JSON.parse(data).forEach(function(item) {
+                    var html = `
+                        <div class="col">
+                            <div class="card bg-light">
+                                <a href="product_page.php?id=${item.id}">
+                                     <img src="${item.image}" class="card-img-top" alt="...">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">${item.name}</h5>
+                                        <div class="card-footer">
+                                            Cost: ${item.cost}
+                                            <button onclick="add_to_cart(${item.id})" class="quickAddBtn" id="Active_Button">Quick Add</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    //append the item to the cards div
+                    $("#cards").append(html);
+                });
+
+            }
+        });
+    }
+       function sort(cost) {
+        console.log(cost);
+        $.ajax({
+            url: "api/sort.php",
+            method: "GET",
+            data: {
+                cost: cost
+            },
+            success: function(data) {
+                console.log(data);
+                flash(`Filtered to ${cost}`, "success");
+                //set main div to hidden
+                //Build the HTML for the items
+                var html = "";
+                $("#cards").html(html); //clear out the cards div
+                JSON.parse(data).forEach(function(item) {
+                    var html = `
+                        <div class="col">
+                            <div class="card bg-light">
+                                <a href="product_page.php?id=${item.id}">
+                                     <img src="${item.image}" class="card-img-top" alt="...">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">${item.name}</h5>
+                                        <div class="card-footer">
+                                            Cost: ${item.cost}
+                                            <button onclick="add_to_cart(${item.id})" class="quickAddBtn" id="Active_Button">Quick Add</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    //append the item to the cards div
+                    $("#cards").append(html);
+                });
+
+            }
+        });
+    }
