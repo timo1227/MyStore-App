@@ -45,7 +45,7 @@ if (!empty($action)) {
                 //TODO handle item removal when desired_quantity is <= 0
                 //TODO handle any other update related rules per your proposal
                 error_log(var_export($e, true));
-                flash("Error updating item quantity", "danger");
+                flash("Enter Valid Quantity", "danger");
             }
             break;
         case "delete":
@@ -77,7 +77,7 @@ if (!empty($action)) {
             break;
     }
 }
-$query = "SELECT cart.id, item.stock, item.name, cart.unit_price, (cart.unit_price * cart.desired_quantity) as subtotal, cart.desired_quantity
+$query = "SELECT cart.item_id, cart.id, item.stock, item.name, cart.unit_price, (cart.unit_price * cart.desired_quantity) as subtotal, cart.desired_quantity
 FROM RM_Items as item JOIN RM_Cart_Alt as cart on item.id = cart.item_id
  WHERE cart.user_id = :uid";
 $db = getDB();
@@ -111,13 +111,13 @@ try {
         <tbody>
             <?php foreach ($cart as $c) : ?>
                 <tr>
-                    <td><?php se($c, "name"); ?></td>
+                    <td> <a href="product_page.php?id=<?php se($c, "item_id"); ?>" target=_blank><?php se($c, "name"); ?></a></td>
                     <td><?php se($c, "unit_price"); ?></td>
                     <td>
                         <form method="POST" style="margin:0 auto">
                             <input type="hidden" name="cart_id" value="<?php se($c, "id"); ?>" />
                             <input type="hidden" name="action" value="update" />
-                            <input type="number" name="desired_quantity" value="<?php se($c, "desired_quantity"); ?>" min="1" max="<?php se($c, "stock"); ?>" />
+                            <input type="number" name="desired_quantity" value="<?php se($c, "desired_quantity"); ?>" min="0" max="<?php se($c, "stock"); ?>" />
                             <input type="submit" class="btn btn-primary" value="Update Quantity" />
                         </form>
                     </td>

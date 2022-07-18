@@ -32,6 +32,10 @@ try {
     <img src="<?php se($result, 'image') ?>" alt="Product Picture">
     <h3>Price</h3>
     <p><?php se($result, "cost"); ?></p>
+    <?php if (has_role("Admin")) : ?>
+        <h3>Stock</h3>
+        <p><?php se($result, "stock"); ?></p>
+    <?php endif; ?>
     <form method="POST" class='quickAdd' onsubmit="return addCart(this);">
         <input type="hidden" name="item_id" value="<?php se($result, "id"); ?>" />
         <input type="hidden" name="action" value="add" />
@@ -42,6 +46,8 @@ try {
         <h3>description</h3>
         <p><?php se($result, "description"); ?></p>
     <?php endif; ?>
-
+    <?php if (has_role("Admin")) : ?>
+        <button><a href="admin/edit_item.php?id=<?php se($result, "id"); ?>">Edit</a></button>
+    <?php endif; ?>
 </div>
 <?php require_once(__DIR__ . "/../../partials/flash.php"); ?>

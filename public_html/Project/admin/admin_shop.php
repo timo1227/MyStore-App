@@ -24,7 +24,7 @@ try {
 ?>
 
 <div class="container-fluid main">
-    <h1>Shop</h1>
+    <h1>Admin Shop View</h1>
     <div class="cards">
         <?php foreach ($results as $item) : ?>
             <div class="col">
@@ -39,12 +39,14 @@ try {
                         <h5 class="card-title"><?php se($item, "name"); ?></h5>
                         <div class="card-footer">
                             Cost: <?php se($item, "cost"); ?>
+                            Stock: <?php se($item, "stock"); ?>
                             <form method="POST" class='quickAdd'>
                                 <input type="hidden" name="item_id" value="<?php se($item, "id"); ?>" />
                                 <input type="hidden" name="action" value="add" />
                                 <input type="hidden" name="desired_quantity" value="1" />
                                 <input type="submit" id='Active_Button' value="Quick Add" name="submit" />
                             </form>
+                            <button><a href="edit_item.php?id=<?php se($item, "id"); ?>">Edit</a></button>
                         </div>
                     </div>
                 </div>
