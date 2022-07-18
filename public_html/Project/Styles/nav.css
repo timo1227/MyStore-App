@@ -50,9 +50,13 @@ nav a:hover{
     max-width: 190px;
     margin-right: 20px;
 }
-.logout{
+#nav-minicart {
     margin-left: auto;
 }
+#nav-minicart-btn{
+    border: none;
+}
+
 #logout{
     font-size: 19px;
 }
