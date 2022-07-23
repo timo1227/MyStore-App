@@ -1,6 +1,7 @@
 {
   "require" : {
     "ext-mbstring": "*",
+    "ext-exif" : "*",
     "ext-memcached": "*"
   },
   "require-dev": {

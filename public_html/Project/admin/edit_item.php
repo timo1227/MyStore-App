@@ -58,8 +58,27 @@ function map_column($col)
         <?php endforeach; ?>
         <input id="Active_Button" type="submit" value="Update" name="submit" />
     </form>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />
+        <input type="file" name="pictures" accept="image/*" />
+        <input type="submit" value="upload" />
+    </form>
 </div>
+<?php
+require_once(__DIR__ . "/../../../bulletproof/src/bulletproof.php");
 
+$image = new Bulletproof\Image($_FILES);
+
+if ($image["pictures"]) {
+    $upload = $image->upload();
+
+    if ($upload) {
+        echo $upload->getFullPath(); // uploads/cat.gif
+    } else {
+        echo $image->getError();
+    }
+}
+?>
 <?php
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");
