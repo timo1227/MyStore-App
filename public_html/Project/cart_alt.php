@@ -149,7 +149,7 @@ try {
             <p>Clear Cart</p>
             <input type="submit" class="btn btn-danger" value="x" />
         </form>
-        <button class="btn btn-primary" onclick="purchase_cart()">Purchase</button>
+        <a href="checkout.php"><button class="btn btn-primary">Checkout</button></a>
     </div>
 </div>
 <?php

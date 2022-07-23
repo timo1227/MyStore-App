@@ -46,16 +46,18 @@ try {
             <div class="col">
                 <div class="card bg-light">
                     <?php if (se($item, "image", "", false)) : ?>
-                        <a href="product_page.php?id=<?php se($item, "id"); ?>">
-                            <img src="<?php se($item, "image"); ?>" class="card-img-top" alt="...">
-                        </a>
+                        <div class="imgSlide">
+                            <div class="card-footer">
+                                <button onclick="add_to_cart('<?php se($item, 'id'); ?>')" class="btn btn-primary btn-lg quickAddBtn">Add to Cart</button>
+                            </div>
+                            <a href="product_page.php?id=<?php se($item, "id"); ?>">
+                                <img src="<?php se($item, "image"); ?>" class="card-img-top" alt="...">
+                            </a>
+                        </div>
                     <?php endif; ?>
                     <div class="card-body">
                         <h5 class="card-title"><?php se($item, "name"); ?></h5>
-                        <div class="card-footer">
-                            Cost: <?php se($item, "cost"); ?>
-                            <button onclick="add_to_cart('<?php se($item, 'id'); ?>')" class="quickAddBtn" id="Active_Button">Quick Add</button>
-                        </div>
+                        Cost: $<?php se($item, "cost"); ?>
                     </div>
                 </div>
             </div>
