@@ -1,8 +1,10 @@
 {
   "require" : {
     "ext-mbstring": "*",
-    "ext-exif" : "*",
-    "ext-memcached": "*"
+    "ext-memcached": "*",
+    "ext-exif": "*",
+    "samayo/bulletproof": "^4.0",
+    "google/cloud-storage": "^1.27"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"

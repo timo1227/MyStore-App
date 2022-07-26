@@ -74,8 +74,6 @@ function sort(cost) {
     });
 }
 
-
-
 setTimeout(() => {
     const card = document.getElementsByClassName('card');
     const btn = document.getElementsByClassName('btn');
