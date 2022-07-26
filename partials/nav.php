@@ -2,6 +2,7 @@
 require_once(__DIR__ . "/../lib/functions.php");
 if (file_exists('/app/vendor/autoload.php')) {
     require_once('/app/vendor/autoload.php');
+    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
     require_once('/app/vendor/samayo/bulletproof/src/bulletproof.php');
     // Make MemCachier connection
     // ==========================
