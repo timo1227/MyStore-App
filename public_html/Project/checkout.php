@@ -396,7 +396,7 @@ foreach ($cart as $item) {
         //Send the data to the server
         $.ajax({
             type: 'POST',
-            url: 'api/checkout.php',
+            url: 'api/purchase.php',
             data: data,
         }).done(function($response) {
             console.log($response);
