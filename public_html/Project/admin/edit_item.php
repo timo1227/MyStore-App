@@ -68,6 +68,9 @@ function map_column($col)
     <form id="fileUploadForm" method="POST" enctype="multipart/form-data">
         <?php foreach ($result as $column => $value) : ?>
             <?php /* Lazily ignoring fields via hardcoded array*/ ?>
+            <div class="mb-4">
+                <input type="hidden" name="id" value="<?php echo $id ?>">
+            </div>
             <?php if (!in_array($column, $ignore)) : ?>
                 <?php if ($column == "image") : ?>
                     <div class="mb-4">
@@ -99,13 +102,9 @@ function map_column($col)
             contentType: false,
             processData: false,
         }).done(function(response) {
-            $("#output").html('<a href="https://storage.googleapis.com/' + response.data.bucket + '/' + response.data.name + '"><i>https://storage.googleapis.com/' + response.data.bucket + '/' + response.data.name + '</i></a>');
-            if (response.data.contentType === 'image/jpeg' || response.data.contentType === 'image/jpg' || response.data.contentType === 'image/png') {
-                $("#output").append('<br/><img src="https://storage.googleapis.com/' + response.data.bucket + '/' + response.data.name + '"/>');
-            }
+            flash("Upadted", "success");
         }).fail(function(response) {
-            flash("Error uploading image", "danger");
-            $("#output").html(response.responseText);
+            flash("Error uploading image" + response, "danger");
         });
     });
 </script>

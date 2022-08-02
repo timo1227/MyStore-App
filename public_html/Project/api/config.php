@@ -9,6 +9,8 @@ if (file_exists('/app/vendor/autoload.php')) {
 
 use Google\Cloud\Storage\StorageClient;
 
+use function PHPSTORM_META\type;
+
 // Please use your own private key (JSON file content) which was downloaded in step 3 and copy it here
 // your private key JSON structure should be similar like dummy value below.
 // WARNING: this is only for QUICK TESTING to verify whether private key is valid (working) or not.  
@@ -32,7 +34,7 @@ $privateKeyFileContent = '{
  * so every time before use the private key we can get a user-input (from UI) to get password to decrypt it.
  */
 
-function uploadFile($bucketName, $fileContent, $cloudPath)
+function uploadFile($bucketName, $fileContent, $cloudPath, $type)
 {
     $privateKeyFileContent = $GLOBALS['privateKeyFileContent'];
     // connect to Google Cloud Storage using private key as authentication
@@ -51,7 +53,11 @@ function uploadFile($bucketName, $fileContent, $cloudPath)
     // upload/replace file 
     $storageObject = $bucket->upload(
         $fileContent,
-        ['name' => $cloudPath]
+        [
+            'name' => $cloudPath,
+            'contentType' => $type,
+            'customTime' => 'now'
+        ],
         // if $cloudPath is existed then will be overwrite without confirmation
         // NOTE: 
         // a. do not put prefix '/', '/' is a separate folder name  !!
@@ -98,4 +104,27 @@ function listFiles($bucket, $directory = null)
         print $object->name() . PHP_EOL;
         // NOTE: if $object->name() ends with '/' then it is a 'folder'
     }
+}
+
+function set_metadata($bucketName, $objectName, $type)
+{
+
+    $privateKeyFileContent = $GLOBALS['privateKeyFileContent'];
+    // connect to Google Cloud Storage using private key as authentication
+    try {
+        $storage = new StorageClient([
+            'keyFile' => json_decode($privateKeyFileContent, true)
+        ]);
+    } catch (Exception $e) {
+        // maybe invalid private key ?
+        print $e;
+        return false;
+    }
+    $bucket = $storage->bucket($bucketName);
+    $object = $bucket->object($objectName);
+    $object->update([
+        'metadata' => [
+            'contentType' => $type,
+        ]
+    ]);
 }
