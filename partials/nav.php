@@ -85,7 +85,15 @@ if (file_exists('/app/vendor/autoload.php')) {
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (is_logged_in()) : ?>
                     <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>">Shop</a></li>
-                    <li class="nav-item"><a href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="<?php echo get_url('profile.php'); ?>">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('order_history.php'); ?>">Order History</a></li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
                     <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>">Shop</a></li>
@@ -120,6 +128,7 @@ if (file_exists('/app/vendor/autoload.php')) {
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/add_item.php'); ?>">Add Item</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_items.php'); ?>">List Items</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/admin_shop.php'); ?>">Admin Shop</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/order_list.php'); ?>">All Orders</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
