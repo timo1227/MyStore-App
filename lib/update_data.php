@@ -1,7 +1,7 @@
 
 <?php
 
-function update_data($table, $id,  $data, $ignore = ["id", "submit"])
+function update_data($table, $id,  $data, $ignore = ["id", "upload"])
 {
     $columns = array_keys($data);
     //again just another example of removing values from an array
@@ -15,6 +15,7 @@ function update_data($table, $id,  $data, $ignore = ["id", "submit"])
             unset($columns[$index]);
         }
     }
+
     $query = "UPDATE $table SET "; //be sure you trust $table
     $cols = [];
     foreach ($columns as $index => $col) {

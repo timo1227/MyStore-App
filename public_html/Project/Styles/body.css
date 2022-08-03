@@ -31,7 +31,6 @@ h1{
 .cards{
     display: flex;
     flex-wrap: wrap;
-    gap:125px;
     width: 100%;
 }
 form{
@@ -101,17 +100,21 @@ tr{
 }
 img {
     width: 100%;
+    height: 100%;
     height: auto;
-    max-width: 300px;
-    max-height: 350px;
+    /* max-width: 360px;
+    max-height: 500px; */
 }
 .col{
-    max-width: fit-content;
+    flex:1 1 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .card{
     border:none;
-    max-width: 310px;
-    max-height: 520px;
+    max-width: 360px;
+    max-height: 502px;
     overflow: hidden;
     min-width: 190px;
     margin: 10px;
@@ -120,19 +123,30 @@ img {
     border-radius: 10px;
 }
 .card-body{
+    padding: 0px;
+    padding-top: 3px;
     overflow: hidden;
     background-color: white;
+    font-size: 62.5%;
+}
+.card-title{
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #000;
+}
+.imgSlide{
+    position:relative
 }
 .card-footer{
-    display: flex;
-    gap: 10px;
-    background-color: inherit;
+    position: absolute;
     margin: 0;
     padding: 0;
+    width: 100%;
     min-height: 7.5rem;
-    margin-top: 0.5rem;
     border: none;
     align-items: center;
+    min-height: fit-content;
 }
 .quickAdd{
     margin:0;
@@ -143,15 +157,21 @@ img {
 }
 .quickAddBtn{
     font-size: 12px;
+    height: 50px;
     font-weight: 800;
-    margin-left: auto;
-    color: #ccc;
+    position:absolute;
+    color: black;
     text-align: center;
     border-radius: 10px;
-    box-shadow: #000 0px 0px 5px;
+    background-color: white;
     border: #ccc 1px solid;
-    width: 80px;
-    height: 30px;
+    width: 100%;
+    top: -100px;
+    transition-duration: 500ms !important;
+    transition: all ease-in-out;
+}
+.quickAddBtn.hovering{
+    top: 0;
 }
 .quickRemove{
     margin:0;
