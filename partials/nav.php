@@ -2,6 +2,8 @@
 require_once(__DIR__ . "/../lib/functions.php");
 if (file_exists('/app/vendor/autoload.php')) {
     require_once('/app/vendor/autoload.php');
+    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+    require_once('/app/vendor/samayo/bulletproof/src/bulletproof.php');
     // Make MemCachier connection
     // ==========================
 
@@ -35,6 +37,7 @@ if (file_exists('/app/vendor/autoload.php')) {
 
     session_start();
 } else {
+    require_once(__DIR__ . '/../vendor/samayo/bulletproof/src/bulletproof.php');
     // Note: this is to resolve cookie issues with port numbers
     $domain = $_SERVER["HTTP_HOST"];
     if (strpos($domain, ":")) {
@@ -61,12 +64,15 @@ if (file_exists('/app/vendor/autoload.php')) {
 ?>
 <!-- include css and js files -->
 <title>My Shop</title>
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
 <link rel="stylesheet" href="<?php echo get_url('Styles/nav.css'); ?>">
 <link rel="stylesheet" href="<?php echo get_url('Styles/body.css'); ?>">
 <script src="<?php echo get_url('Scripts/helpers.js'); ?>"></script>
+<script src="<?php echo get_url('Scripts/script.js'); ?>"></script>
 <nav class='navbar navbar-expand-lg navbar-light'>
     <div class="container-fluid">
         <a class="navbar-brand" href="<?php echo get_url('home.php'); ?>">
@@ -79,7 +85,15 @@ if (file_exists('/app/vendor/autoload.php')) {
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (is_logged_in()) : ?>
                     <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>">Shop</a></li>
-                    <li class="nav-item"><a href="<?php echo get_url('profile.php'); ?>">Profile</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="<?php echo get_url('profile.php'); ?>">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('order_history.php'); ?>">Order History</a></li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
                     <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>">Shop</a></li>
@@ -114,12 +128,13 @@ if (file_exists('/app/vendor/autoload.php')) {
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/add_item.php'); ?>">Add Item</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_items.php'); ?>">List Items</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/admin_shop.php'); ?>">Admin Shop</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/order_list.php'); ?>">All Orders</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
                 <?php if (is_logged_in()) : ?>
                     <li id="nav-minicart" class="nav-item" data-cart-view="data-cart-view">
-                        <a href="<?php echo get_url('cart_alt.php'); ?>">
+                        <a href="cart_alt.php">
                             <button id="nav-minicart-btn">
                                 <svg id="" style="height: 22px;" data-name="Cart Icon" xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 20 22">
                                     <path d="M5 4V2C5 1.46957 5.21071 0.960859 5.58579 0.585786C5.96086 0.210714 6.46957 0 7 0H13C13.5304 0 14.0391 0.210714 14.4142 0.585786C14.7893 0.960859 15 1.46957 15 2V4H18C18.5304 4 19.0391 4.21071 19.4142 4.58579C19.7893 4.96086 20 5.46957 20 6V19C20 19.7956 19.6839 20.5587 19.1213 21.1213C18.5587 21.6839 17.7956 22 17 22H3C2.20435 22 1.44129 21.6839 0.87868 21.1213C0.316071 20.5587 0 19.7956 0 19V6C0 5.46957 0.210714 4.96086 0.585786 4.58579C0.960859 4.21071 1.46957 4 2 4H5ZM2 6V19C2 19.2652 2.10536 19.5196 2.29289 19.7071C2.48043 19.8946 2.73478 20 3 20H17C17.2652 20 17.5196 19.8946 17.7071 19.7071C17.8946 19.5196 18 19.2652 18 19V6H2ZM7 4H13V2H7V4Z"></path>

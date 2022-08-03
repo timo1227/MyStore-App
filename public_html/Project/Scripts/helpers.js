@@ -117,9 +117,6 @@ function purchase_cart() {
                 flash(data.message, "danger");
             }
             get_cart();
-            if (refresh_balance) {
-                refresh_balance();
-            }
         })
 }
 function add_to_cart(item_id, quantity = 1) {
@@ -136,81 +133,3 @@ function add_to_cart(item_id, quantity = 1) {
             flash("There was a problem adding the item to cart", "danger");
         });
    }
-
-       function filter(category) {
-        $.ajax({
-            url: "api/items.php",
-            method: "GET",
-            data: {
-                category: category
-            },
-            success: function(data) {
-                console.log(data);
-                flash(`Filtered to ${category}`, "success");
-                //set main div to hidden
-                //Build the HTML for the items
-                var html = "";
-                $("#cards").html(html); //clear out the cards div
-                JSON.parse(data).forEach(function(item) {
-                    var html = `
-                        <div class="col">
-                            <div class="card bg-light">
-                                <a href="product_page.php?id=${item.id}">
-                                     <img src="${item.image}" class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">${item.name}</h5>
-                                        <div class="card-footer">
-                                            Cost: ${item.cost}
-                                            <button onclick="add_to_cart(${item.id})" class="quickAddBtn" id="Active_Button">Quick Add</button>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    //append the item to the cards div
-                    $("#cards").append(html);
-                });
-
-            }
-        });
-    }
-       function sort(cost) {
-        console.log(cost);
-        $.ajax({
-            url: "api/sort.php",
-            method: "GET",
-            data: {
-                cost: cost
-            },
-            success: function(data) {
-                console.log(data);
-                flash(`Filtered to ${cost}`, "success");
-                //set main div to hidden
-                //Build the HTML for the items
-                var html = "";
-                $("#cards").html(html); //clear out the cards div
-                JSON.parse(data).forEach(function(item) {
-                    var html = `
-                        <div class="col">
-                            <div class="card bg-light">
-                                <a href="product_page.php?id=${item.id}">
-                                     <img src="${item.image}" class="card-img-top" alt="...">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">${item.name}</h5>
-                                        <div class="card-footer">
-                                            Cost: ${item.cost}
-                                            <button onclick="add_to_cart(${item.id})" class="quickAddBtn" id="Active_Button">Quick Add</button>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    //append the item to the cards div
-                    $("#cards").append(html);
-                });
-
-            }
-        });
-    }
