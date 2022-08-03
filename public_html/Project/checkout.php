@@ -271,13 +271,14 @@ foreach ($cart as $item) {
                                         <div>
                                             <label for="payment[ammount]">Payment Amouunt</label>
                                             <input class="field__input" type="number" name="payment[ammount]" id="payment_ammount" min=0 max=<?php echo $total ?>>
+                                            <div class="FormMessage" id="Invalid_Ammount"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="step__footer">
+                    <div class=" step__footer">
                         <button name="button" type='submit' id="payment_button" class="btn">Pay Now</button>
                         <a class="step__footer__previous-link" href="cart_alt.php">
                             <span class="step__footer__previous-link-content">Return to cart</span>
@@ -371,6 +372,25 @@ foreach ($cart as $item) {
         return valid;
     }
 
+    function validatePayment() {
+        var valid = true;
+        var ammount = document.getElementById("payment_ammount");
+        //remove the $ from the total
+        var total_cost = document.getElementById("total_cost");
+        total_cost = total_cost.innerHTML.substring(1);
+        console.log(total_cost);
+        if (ammount.value == "") {
+            ammount.style.border = "1px solid red";
+            valid = false;
+        } else if (ammount.value != total_cost) {
+            ammount.style.border = "1px solid red";
+            $("#Invalid_Ammount").html("Enter the full Total Amount To Place Order");
+            valid = false;
+        } else {
+            ammount.style.border = "1px solid #ced4da";
+        }
+        return valid;
+    }
     $('#continue_button').click(function(e) {
         e.preventDefault();
         if (validateShipping()) {
@@ -385,28 +405,30 @@ foreach ($cart as $item) {
     $('#payment_button').click(function(e) {
         e.preventDefault();
         //Combine the shipping and payment information
-        var data = {
-            first_name: $('#checkout_shipping_address_first_name').val(),
-            last_name: $('#checkout_shipping_address_last_name').val(),
-            full_address: Fulladdress,
-            payment_type: $('#payment_type').val(),
-            amount: $('#payment_ammount').val(),
-            total: $('#total_cost').html()
-        };
-        //Send the data to the server
-        $.ajax({
-            type: 'POST',
-            url: 'api/purchase.php',
-            data: data,
-        }).done(function($response) {
-            console.log($response);
-            $response = JSON.parse($response);
-            console.log($response.order_id);
-            window.location.href = "orderConfirmation.php?order_id=" + $response.order_id;
-        }).fail(function($response) {
-            alert('Error placing order');
-            console.log($response[message]);
-        });
+        if (validatePayment()) {
+            var data = {
+                first_name: $('#checkout_shipping_address_first_name').val(),
+                last_name: $('#checkout_shipping_address_last_name').val(),
+                full_address: Fulladdress,
+                payment_type: $('#payment_type').val(),
+                amount: $('#payment_ammount').val(),
+                total: $('#total_cost').html()
+            };
+            //Send the data to the server
+            $.ajax({
+                type: 'POST',
+                url: 'api/purchase.php',
+                data: data,
+            }).done(function($response) {
+                console.log($response);
+                $response = JSON.parse($response);
+                console.log($response.order_id);
+                window.location.href = "orderConfirmation.php?order_id=" + $response.order_id;
+            }).fail(function($response) {
+                alert('Error placing order');
+                console.log($response[message]);
+            });
+        }
     });
 </script>
 <style>
