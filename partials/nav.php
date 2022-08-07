@@ -100,7 +100,7 @@ if (file_exists('/app/vendor/autoload.php')) {
                     </li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
-                    <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>?page=1&sort=manual">Shop</a></li>
+                    <li class=" nav-item"><a href="<?php echo get_url('home.php'); ?>?page=1&sort=manual">Shop</a></li>
                     <li class="nav-item"><a href="<?php echo get_url('login.php'); ?>">Login</a></li>
                     <li class="nav-item"><a href="<?php echo get_url('register.php'); ?>">Register</a></li>
                     <li id="nav-minicart" class="nav-item" data-cart-view="data-cart-view">
