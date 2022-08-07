@@ -19,7 +19,8 @@ try {
 }
 ?>
 <div class='container-fluid main'>
-    <h1>THANKYOU FOR YOUR ORDER, <?php echo get_username() ?> !</h1>
+    <h1>Order Confirmation</h1>
+    <h2>THANKYOU FOR YOUR ORDER, <?php echo get_username() ?> !</h2>
     <h2>Order #<?php se($result, "id"); ?></h2>
     <h3>Date</h3>
     <p><?php se($result, "created"); ?></p>

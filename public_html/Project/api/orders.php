@@ -11,6 +11,19 @@ try {
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($r) {
         $items = $r;
+        //get the users_id username and email from the Users table and add it to the items array
+        $stmt = $db->prepare("SELECT * FROM Users where id =:user_id");
+        try {
+            $stmt->execute([":user_id" => $items[0]["user_id"]]);
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($r) {
+                $items[0]["username"] = $r["username"];
+                $items[0]["email"] = $r["email"];
+            }
+        } catch (PDOException $e) {
+            error_log(var_export($e, true));
+            flash("Error Loading Product Page", "danger");
+        }
     }
 } catch (PDOException $e) {
     error_log(var_export($e, true));

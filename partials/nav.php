@@ -71,11 +71,15 @@ if (file_exists('/app/vendor/autoload.php')) {
 <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
 <link rel="stylesheet" href="<?php echo get_url('Styles/nav.css'); ?>">
 <link rel="stylesheet" href="<?php echo get_url('Styles/body.css'); ?>">
+<link rel="apple-touch-icon" sizes="180x180" href="<?php echo get_url('Images'); ?>/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="<?php echo get_url('Images'); ?>/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="<?php echo get_url('Images'); ?>/favicon-16x16.png">
+<link rel="manifest" href="<?php echo get_url('Images'); ?>/site.webmanifest">
 <script src="<?php echo get_url('Scripts/helpers.js'); ?>"></script>
-<script src="<?php echo get_url('Scripts/script.js'); ?>"></script>
+<script src="<?php echo get_url('Scripts/script.js'); ?>" defer></script>
 <nav class='navbar navbar-expand-lg navbar-light'>
     <div class="container-fluid">
-        <a class="navbar-brand" href="<?php echo get_url('home.php'); ?>">
+        <a class="navbar-brand" href="<?php echo get_url('home.php'); ?>?page=1&sort=manual">
             <img src="<?php echo get_url('Images/LOGO.48'); ?>" alt="logo" class="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +88,7 @@ if (file_exists('/app/vendor/autoload.php')) {
         <div class="collapse navbar-collapse" id='navbarSupportedContent'>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <?php if (is_logged_in()) : ?>
-                    <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>">Shop</a></li>
+                    <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>?page=1&sort=manual">Shop</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Profile
@@ -96,7 +100,7 @@ if (file_exists('/app/vendor/autoload.php')) {
                     </li>
                 <?php endif; ?>
                 <?php if (!is_logged_in()) : ?>
-                    <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>">Shop</a></li>
+                    <li class="nav-item"><a href="<?php echo get_url('home.php'); ?>?page=1&sort=manual">Shop</a></li>
                     <li class="nav-item"><a href="<?php echo get_url('login.php'); ?>">Login</a></li>
                     <li class="nav-item"><a href="<?php echo get_url('register.php'); ?>">Register</a></li>
                     <li id="nav-minicart" class="nav-item" data-cart-view="data-cart-view">
@@ -127,14 +131,14 @@ if (file_exists('/app/vendor/autoload.php')) {
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/add_item.php'); ?>">Add Item</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_items.php'); ?>">List Items</a></li>
-                            <li><a class="dropdown-item" href="<?php echo get_url('admin/admin_shop.php'); ?>">Admin Shop</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/admin_shop.php'); ?>?page=1&sort=manual">Admin Shop</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/order_list.php'); ?>">All Orders</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
                 <?php if (is_logged_in()) : ?>
                     <li id="nav-minicart" class="nav-item" data-cart-view="data-cart-view">
-                        <a href="cart_alt.php">
+                        <a href="<?php echo get_url('cart_alt.php'); ?>">
                             <button id="nav-minicart-btn">
                                 <svg id="" style="height: 22px;" data-name="Cart Icon" xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 20 22">
                                     <path d="M5 4V2C5 1.46957 5.21071 0.960859 5.58579 0.585786C5.96086 0.210714 6.46957 0 7 0H13C13.5304 0 14.0391 0.210714 14.4142 0.585786C14.7893 0.960859 15 1.46957 15 2V4H18C18.5304 4 19.0391 4.21071 19.4142 4.58579C19.7893 4.96086 20 5.46957 20 6V19C20 19.7956 19.6839 20.5587 19.1213 21.1213C18.5587 21.6839 17.7956 22 17 22H3C2.20435 22 1.44129 21.6839 0.87868 21.1213C0.316071 20.5587 0 19.7956 0 19V6C0 5.46957 0.210714 4.96086 0.585786 4.58579C0.960859 4.21071 1.46957 4 2 4H5ZM2 6V19C2 19.2652 2.10536 19.5196 2.29289 19.7071C2.48043 19.8946 2.73478 20 3 20H17C17.2652 20 17.5196 19.8946 17.7071 19.7071C17.8946 19.5196 18 19.2652 18 19V6H2ZM7 4H13V2H7V4Z"></path>
