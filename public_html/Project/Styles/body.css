@@ -15,6 +15,7 @@ h1{
 }
 .main{
     max-width: 1500px;
+    margin-bottom: 100px;
 }
 .options{
     display: flex;
@@ -114,7 +115,7 @@ img {
 .card{
     border:none;
     max-width: 360px;
-    max-height: 502px;
+    max-height: 512px;
     overflow: hidden;
     min-width: 190px;
     margin: 10px;
@@ -136,7 +137,8 @@ img {
     color: #000;
 }
 .imgSlide{
-    position:relative
+    position:relative;
+    display: flex;
 }
 .card-footer{
     position: absolute;
@@ -185,9 +187,22 @@ img {
     justify-content: center;
     align-items: center;
 }
+.footer{
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+.red-color{
+    color: red;
+    font-weight: 600;
+}
 #Roles_Toggle{
     margin: 10px auto;
 }
 #Active_Button{
     background-color: #1AA7EC;
+}
+#main{
+    margin-bottom: 100px;
+    padding-bottom: 50px;
 }

@@ -3,9 +3,33 @@ $OrderTable = "Orders";
 $db = getDB();
 $user_id = get_user_id();
 //Get All Orders from the database of the User
-$stmt = $db->prepare("SELECT * FROM $OrderTable where user_id =:user_id LIMIT 10");
+// $stmt = $db->prepare("SELECT * FROM $OrderTable where user_id =:user_id LIMIT 10");
+// try {
+//     $stmt->execute([":user_id" => $user_id]);
+//     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//     if ($r) {
+//         $results = $r;
+//     }
+// } catch (PDOException $e) {
+//     error_log(var_export($e, true));
+//     flash("Error Orders ", "danger");
+// }
+//
+$query = "SELECT * FROM $OrderTable where user_id =:user_id";
+$params = [];
+$category = isset($_GET['category']) ? $_GET['category'] : "";
+$sort = isset($_GET['sort']) ? $_GET['sort'] : "";
+// if (!empty($category)) {
+//     $query .= " AND category = :category";
+//     $params[':category'] = $category;
+// }
+if (!empty($sort)) {
+    $query .= " ORDER BY $sort";
+}
+$params[':user_id'] = $user_id;
+$stmt = $db->prepare($query);
 try {
-    $stmt->execute([":user_id" => $user_id]);
+    $stmt->execute($params);
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($r) {
         $results = $r;
@@ -14,8 +38,16 @@ try {
     error_log(var_export($e, true));
     flash("Error Orders ", "danger");
 }
+
+// Pagination 
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$per_page = 5;
+$total_count = count($results);
+$total_pages = ceil($total_count / $per_page);
+$offset = ($current_page - 1) * $per_page;
+$results = array_slice($results, $offset, $per_page);
+
 ?>
-<!-- Search For Order -->
 
 <!-- Orders IN table Form -->
 <div id="RecentOrders" class='container-fluid main'>
@@ -35,7 +67,7 @@ try {
                     <td><?php se($row, "id"); ?></td>
                     <td><?php se($row, "created"); ?></td>
                     <td><?php se($row, "total_price"); ?></td>
-                    <td><a class="ToogleView" href="order_history.php?order_id=<?php se($row, "id"); ?>">View Items</a></td>
+                    <td><a class="ToogleView" href="order_history.php?order_id=<?php se($row, "id"); ?>&category=<?php se($category, true) ?>">View Items</a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -53,11 +85,14 @@ try {
             //Toggle Table View
             $("#RecentOrders").toggle();
             $("#OrderTable").toggle();
+            console.log(e.target.href);
             let order_id = e.target.getAttribute("href").split("=")[1];
             let url = "order_history.php?order_id=" + order_id;
+            let category = e.target.getAttribute("href").split("&")[1].split("=")[1];
+            console.log(category);
             //Get the Order Items from the database
             $.ajax({
-                url: "/Project/api/orders.php?order_id=" + order_id,
+                url: "/Project/api/orders.php?order_id=" + order_id + "&category=" + category,
                 method: "GET",
             }).done(function(data) {
                 let order_items = JSON.parse(data);

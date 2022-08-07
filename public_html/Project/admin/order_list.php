@@ -38,6 +38,7 @@ try {
 // save username to variable
 $username = $user[0]["username"];
 $user_email = $user[0]["email"];
+$users_ID = $user[0]["id"];
 ?>
 <!-- Search For Order -->
 
@@ -67,9 +68,6 @@ $user_email = $user[0]["email"];
 </div>
 <!-- Order Items -->
 <div id="OrderTable" class='container-fluid main' style="display:none">
-    <h2>User Info</h2>
-    <p> <?php echo $username ?> </p>
-    <p> <?php echo $user_email ?> </p>
     <div id="OrderItems"></div>
 </div>
 <script>
@@ -89,6 +87,16 @@ $user_email = $user[0]["email"];
             }).done(function(data) {
                 let order_items = JSON.parse(data);
                 console.log(order_items);
+                let UserHeader = document.createElement("h2");
+                UserHeader.innerHTML = "User Info";
+                document.getElementById("OrderItems").appendChild(UserHeader);
+                let UserInfo = document.createElement("a");
+                UserInfo.href = "../userProifle.php?id=" + order_items[0]["user_id"];
+                UserInfo.innerHTML = order_items[0]["username"];
+                document.getElementById("OrderItems").appendChild(UserInfo);
+                let UserEmail = document.createElement("p");
+                UserEmail.innerHTML = order_items[0]["email"];
+                document.getElementById("OrderItems").appendChild(UserEmail);
                 let ShippingHeader = document.createElement("h2");
                 ShippingHeader.innerHTML = "Shipping Info";
                 document.getElementById("OrderItems").appendChild(ShippingHeader);
