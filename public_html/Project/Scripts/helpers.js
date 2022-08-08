@@ -133,3 +133,21 @@ function add_to_cart(item_id, quantity = 1) {
             flash("There was a problem adding the item to cart", "danger");
         });
    }
+
+function add_review(item_id, rating, comment) {
+    postData({
+        item_id: item_id,
+        rating: rating,
+        comment: comment
+    }, "/Project/api/add_review.php").then(data => {
+        console.log(data.status);
+        if (data.status === 200) {
+            flash(data.message, "success");
+            window.location.reload();
+        } else {
+            flash(data.message, "danger");
+        }
+    }).catch(e => {
+        flash("There was a problem adding the review", "danger");
+    });
+}

@@ -1,0 +1,1 @@
+ALTER TABLE `RM_Items` ADD COLUMN `average_rating` FLOAT DEFAULT 0;
