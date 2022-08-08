@@ -11,11 +11,11 @@ if (!empty($category)) {
     $params[":category"] = "$category";
 }
 if (!empty($sort)) {
-    if ($sort == "date_desc") {
-        $query .= " ORDER BY created DESC";
-    } else if ($sort == "date_asc") {
-        $query .= " ORDER BY created ASC";
-    } else if ($sort == "high") {
+    // if ($sort == "date_desc") {
+    //     $query .= " ORDER BY created DESC";
+    // } else if ($sort == "date_asc") {
+    //     $query .= " ORDER BY created ASC";
+    if ($sort == "high") {
         $query .= " ORDER BY cost DESC";
     } else if ($sort == "low") {
         $query .= " ORDER BY cost ASC";
