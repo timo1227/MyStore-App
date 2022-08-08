@@ -10,8 +10,28 @@ if (file_exists('/app/vendor/samayo/bulletproof/src/bulletproof.php')) {
 require_once(__DIR__ . '/../../../lib/functions.php');
 // $action = filter_var(trim($_REQUEST['action']), FILTER_SANITIZE_STRING);
 $action = $_REQUEST['action'];
+error_log("Uploading file " . var_export($_FILES, true));
 if ($action == 'upload') {
-    error_log("Uploading file " . var_export($_FILES, true));
+    // Check if image was uploaded 
+    if ($_FILES['image']['name'] == "") {
+        error_log("no image");
+        //GET OLD IMAGE PATH FROM DB
+        $id = $_REQUEST['id'];
+        $db = getDB();
+        $stmt = $db->prepare("SELECT image FROM RM_Items WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $oldImage = $result['image'];
+        // Set Image Path to Post Image Path
+        error_log("Setting Old Image Path Since None provided" . $oldImage);
+        $_POST['image'] = $oldImage;
+        $TABLE_NAME = "RM_Items";
+        if (update_data($TABLE_NAME, $_POST["id"], $_POST)) {
+            flash("Updated item", "success");
+        }
+        die();
+    }
     //Create Bulletproof object
     $image = new Bulletproof\Image($_FILES);
     //upload image
@@ -57,7 +77,6 @@ if ($action == 'upload') {
             if (update_data($TABLE_NAME, $_POST["id"], $_POST)) {
                 flash("Updated item", "success");
             }
-
             exit();
         } else {
             //flash error

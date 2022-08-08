@@ -86,6 +86,45 @@ if (isset($_POST["save"])) {
             }
         }
     }
+
+    //Check/update Profile Privacy
+    $profile_privacy = se($_POST, "profile_privacy", null, false);
+    if (!empty($profile_privacy)) {
+        $stmt = $db->prepare("UPDATE Users set Profile = :profile_privacy where id = :id");
+        try {
+            $stmt->execute([
+                ":id" => get_user_id(),
+                ":profile_privacy" => $profile_privacy
+            ]);
+        } catch (Exception $e) {
+            echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+        }
+    } else {
+        $profile_privacy = "Public";
+        $stmt = $db->prepare("UPDATE Users set Profile = :profile_privacy where id = :id");
+        try {
+            $stmt->execute([
+                ":id" => get_user_id(),
+                ":profile_privacy" => $profile_privacy
+            ]);
+        } catch (Exception $e) {
+            echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+        }
+    }
+}
+
+//Check if User is Private Or Public 
+$db = getDB();
+$stmt = $db->prepare("SELECT * from Users where id = :id");
+$is_Private = false;
+try {
+    $stmt->execute([":id" => get_user_id()]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user["Profile"] == "Private") {
+        $is_Private = true;
+    }
+} catch (Exception $e) {
+    echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
 }
 ?>
 
@@ -93,6 +132,7 @@ if (isset($_POST["save"])) {
 $email = get_user_email();
 $username = get_username();
 ?>
+<h1>Edit Profile</h1>
 <form method="POST" onsubmit="return validate(this);">
     <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Email/Username Reset</div>
     <div class="mb-3">
@@ -102,6 +142,20 @@ $username = get_username();
     <div class="mb-3">
         <label for="username">Username</label>
         <input type="text" name="username" id="username" value="<?php se($username); ?>" />
+    </div>
+    <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Profile Privacy</div>
+    <div class="mb-3">
+        <!-- <label for="Public/Private">Private</label>
+        <input type="radio" name="Public/Private" value="Private" />
+        <label for="Public">Public</label>
+        <input type="radio" name="Public/Private" value="Public" /> -->
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" value="Private" name="profile_privacy" <?php if ($is_Private) : echo "checked";
+                                                                                                                    endif; ?>>
+            <label class="form-check-label" for="profile_privacy">Private Profile</label>
+        </div>
+
+
     </div>
     <!-- DO NOT PRELOAD PASSWORD -->
     <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Password Reset</div>
@@ -145,7 +199,7 @@ $username = get_username();
             flash("New Password and Confirm Password don't match", "warning");
             isValid = false;
         }
-        if (pw.length < 8) {
+        if (pw.length > 0 && pw.length < 8) {
             flash("New Password must be at least 8 characters", "warning");
             isValid = false;
         }
