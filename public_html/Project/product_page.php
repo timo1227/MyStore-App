@@ -58,7 +58,7 @@ if (is_logged_in()) {
 
 // Get all Reviews for the item
 $reviews = [];
-$stmt = $db->prepare("SELECT * FROM Ratings where item_id =:item_id");
+$stmt = $db->prepare("SELECT * FROM Ratings JOIN Users on Ratings.user_id = Users.id where item_id =:item_id");
 try {
     $stmt->execute([":item_id" => $id]);
     $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -77,6 +77,16 @@ $numReviews = 0;
 foreach ($reviews as $review) {
     $numReviews++;
 }
+// Pagination for reviews
+$count = 0;
+$per_page = 1;
+if (!empty($reviews)) {
+    $total_count = count($reviews);
+    $total_pages = ceil($total_count / $per_page);
+    // $offset = ($page - 1) * $per_page;
+    // $reviews = array_slice($reviews, $offset, $per_page);
+}
+
 ?>
 <!-- Parse through Results -->
 <script>
@@ -113,7 +123,7 @@ foreach ($reviews as $review) {
             </form>
         </div>
     </div>
-    <div class="footer">
+    <div class="page_footer">
         <div class="admin">
             <?php if (has_role("Admin")) : ?>
                 <h3>Stock</h3>
@@ -136,12 +146,29 @@ foreach ($reviews as $review) {
             </div>
             <h3>Customer Reviews</h3>
             <?php if (!empty($reviews)) : ?>
-                <?php foreach ($reviews as $review) : ?>
-                    <div class="Review">
-                        <p>Rating: <?php se($review, "rating"); ?></p>
-                        <p>Review: <?php se($review, "comment"); ?></p>
-                    </div>
-                <?php endforeach; ?>
+                <div class="ReviewCards">
+                    <?php foreach ($reviews as $review) :
+                        $count++ ?>
+                        <?php if ($count > $per_page) : ?>
+                            <div id="Card<?php echo $count ?>" style="display: none;" class="ReviewCard">
+                                <h5>User: <a class="ReviewTitle" href="userProfile.php?id=<?php se($review, "user_id") ?>"><?php se($review, "username") ?></a></h5>
+                                <div class="Review">
+                                    <p>Rating: <?php se($review, "rating"); ?> / 5</p>
+                                    <p class="user_review"><?php se($review, "comment"); ?></p>
+                                </div>
+                            </div>
+                        <?php else : ?>
+                            <div id="Card<?php echo $count ?>" class="ReviewCard">
+                                <h5>User: <a class="ReviewTitle" href="userProfile.php?id=<?php se($review, "user_id") ?>"><?php se($review, "username") ?></a></h5>
+                                <div class="Review">
+                                    <p>Rating: <?php se($review, "rating"); ?> / 5</p>
+                                    <p class="user_review"><?php se($review, "comment"); ?></p>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    <span class="loadbtn"><button id="LoadNext" onclick="loadMore(<?php echo $total_pages ?>)">Load More</button></span>
+                </div>
             <?php else : ?>
                 <p>No Reviews</p>
             <?php endif; ?>
@@ -152,6 +179,18 @@ foreach ($reviews as $review) {
     function addReview(form) {
         add_review('<?php se($result, 'id'); ?>', form.rating.value, form.review.value)
         return false;
+    }
+
+    function loadMore(total_loads) {
+        for (var i = 1; i <= total_loads; i++) {
+            if (document.getElementById("Card" + i).style.display == "none") {
+                document.getElementById("Card" + i).style.display = "block";
+                if (i == total_loads) {
+                    document.getElementById("LoadNext").style.display = "none";
+                }
+                break;
+            }
+        }
     }
 </script>
 <style>
@@ -223,7 +262,7 @@ foreach ($reviews as $review) {
         justify-content: center;
     }
 
-    .footer {
+    .page_footer {
         grid-area: decription;
         margin-top: 20px;
         width: 100%;
@@ -231,6 +270,11 @@ foreach ($reviews as $review) {
 
     .image_container img {
         border-radius: 10px;
+    }
+
+    .loadBtn {
+        display: flex;
+        justify-content: center;
     }
 
     textarea {
@@ -246,6 +290,17 @@ foreach ($reviews as $review) {
     #Rating {
         text-decoration: none;
         color: gray;
+    }
+
+    #LoadNext {
+        background-color: black;
+        font-size: 1.2rem;
+        color: white;
+        border-radius: 5rem;
+        text-align: center;
+        cursor: pointer;
+        text-transform: uppercase;
+        padding: 10px 15px;
     }
 </style>
 <?php require_once(__DIR__ . "/../../partials/flash.php"); ?>

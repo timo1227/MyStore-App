@@ -21,31 +21,79 @@
 ### Proposal Checklist and Evidence
 
 - Milestone 1
+
   - [x] \(07/03/22 of completion) User will be able to register a new account
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
   - [x] \(07/03/22 of completion) User will be able to login to their account (given they enter the correct credentials)
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
   - [x] \(07/03/22 of completion) User will be able to logout
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
   - [x] \(07/04/22 of completion) Basic security rules implemented
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
   - [x] \(07/06/22 of completion) Basic Roles implemented
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
   - [x] \(07/05/22 of completion) Site should have basic styles/theme applied; everything should be styled
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
   - [x] \(07/05/22 of completion) Any output messages/errors should be “user friendly”
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
   - [x] \(07/05/22 of completion) User will be able to see their profile
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
   - [x] \(07/05/22 of completion) User will be able to edit their profile
-    - Link to related .md file: [Link Name](link url)
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone1.md)
+
 - Milestone 2
-  - (duplicate template here for Milestone 1 features)
+
+  - [x] \(07/18/22 of completion) User With Role Admin will be able to add items to the database
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+  - [x] \(07/18/22 of completion) Any user can see available products on shop page
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+  - [x] \(07/18/22 of completion) Admin can see all products
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+  - [x] \(07/18/22 of completion) Admin can edit products
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+  - [x] \(07/18/22 of completion) Users can see product details at product page
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+  - [x] \(07/18/22 of completion) Users can add products to cart
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+  - [x] \(07/18/22 of completion) Users can see their cart
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+  - [x] \(07/18/22 of completion) Users can remove products from cart and update quantity
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+  - [x] \(07/18/22 of completion) Friendly error messages for invalid input and Success messages for valid input
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone2.md)
+
 - Milestone 3
-  - (duplicate template here for Milestone 1 features)
+
+  - [x] \(08/02/22 of completion) Cart Page should have a “Checkout” button
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md)
+  - [x] \(08/02/22 of completion) Order will be recorded in the database
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md)
+  - [x] \(08/02/22 of completion) Checkout page will have a “Pay” button and display cart contents and total cost
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md)
+  - [x] \(08/02/22 of completion) Order Process will verify all item prices and stock levels are correct
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md)
+  - [x] \(08/02/22 of completion) Order Confirmation Page will display order details and a “Thank you for your order” message
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md)
+  - [x] \(08/02/22 of completion) Users can see their order history
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md)
+  - [x] \(08/02/22 of completion) Admin can see all orders
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone3.md)
+
 - Milestone 4
-  - (duplicate template here for Milestone 1 features)
-  -
+  - [x] \(08/07/22 of completion) Users can Change profile privacy settings
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md)
+  - [x] \(08/07/22 of completion) Users can rate products
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md)
+  - [x] \(08/07/22 of completion) Users Purchase History Changes
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md)
+  - [x] \(08/07/22 of completion) Admin Purchase History Changes
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md)
+  - [x] \(08/07/22 of completion) Store Page Pagination
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md)
+  - [x] \(08/07/22 of completion) Admin can see items that are out of stock
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md)
+  - [x] \(08/07/22 of completion) Users can sort items by average rating
+    - Link to related .md file: [https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md](https://github.com/timo1227/IT202-451-M22/blob/prod/public_html/Project/Milestone4.md)
 
 ### Intructions
 

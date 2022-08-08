@@ -36,7 +36,7 @@ if (!has_role("Admin")) {
 $result = [];
 $columns = get_columns($TABLE_NAME);
 //echo "<pre>" . var_export($columns, true) . "</pre>";
-$ignore = ["id", "modified", "created"];
+$ignore = ["id", "modified", "created", "average_rating"];
 $db = getDB();
 //get the item
 $id = se($_GET, "id", -1, false);
@@ -94,7 +94,6 @@ function map_column($col)
         e.preventDefault();
         var action = "../api/requests.php?action=upload";
         var data = new FormData(e.target);
-        console.log(data);
         $.ajax({
             type: "POST",
             url: action,
@@ -102,7 +101,7 @@ function map_column($col)
             contentType: false,
             processData: false,
         }).done(function(response) {
-            flash("Upadted", "success");
+            flash("Updated", "success");
         }).fail(function(response) {
             flash("Error uploading image" + response, "danger");
         });

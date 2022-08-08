@@ -72,6 +72,21 @@ if ($sort == "high") {
         error_log(var_export($e, true));
         flash("Error fetching items", "danger");
     }
+} else if ($sort == "OOS") {
+    $stmt = $db->prepare("SELECT id, name, description, cost, stock, image FROM RM_Items WHERE stock = 0");
+    try {
+        $stmt->execute();
+        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Check for no results
+        if (!$r) {
+            flash("No items are out of stock", "info");
+        } else {
+            $results = $r;
+        }
+    } catch (PDOException $e) {
+        error_log(var_export($e, true));
+        flash("Error fetching items", "danger");
+    }
 }
 
 // Creat Pagination for the items
@@ -89,8 +104,9 @@ $results = array_slice($results, $offset, $items_per_page);
             Filters
         </a>
         <ul class="dropdown-menu" aria-labelledby="FilterDropdown">
-            <li><a class="dropdown-item" onclick="filter('mens')">Men</a></li>
-            <li><a class="dropdown-item" onclick="filter('womens')">Women</a></li>
+            <li><a class="dropdown-item" href="../mens-new.php?page=1&sort=manual"">Men</a></li>
+            <li><a class=" dropdown-item" href="../womens-new.php?sort=manual"">Women</a></li>
+            <li><a class=" dropdown-item" onclick="filter('OOS')">Out of Stock</a></li>
         </ul>
         <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Sort
@@ -122,6 +138,9 @@ $results = array_slice($results, $offset, $items_per_page);
                         Cost: $<?php se($item, "cost"); ?>
                         <?php if ($itemStock == 0) : ?>
                             <p class="red-color">Out Stock</p>
+                        <?php endif; ?>
+                        <?php if ($itemStock < 10) : ?>
+                            <p class="red-color">Low Stock</p>
                         <?php endif; ?>
                     </div>
                 </div>

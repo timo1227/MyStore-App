@@ -20,7 +20,7 @@ try {
 }
 
 //Get ALL OF PROFILE'S REVIEWS
-$sql = "SELECT * FROM Ratings WHERE user_id = $profileId";
+$sql = "SELECT * FROM Ratings JOIN RM_Items ON Ratings.item_id = RM_Items.id WHERE user_id = $profileId";
 $stmt = $db->prepare($sql);
 $reviews = [];
 try {
@@ -49,9 +49,12 @@ try {
         <h1>Reviews</h1>
         <?php if (count($reviews) > 0) : ?>
             <?php foreach ($reviews as $review) : ?>
-                <div class="review">
-                    <h3>Rating: <?php echo $review["rating"]; ?></h3>
-                    <h3>Review: <?php echo $review["comment"]; ?></h3>
+                <div class="ReviewCard">
+                    <h5>Item: <a class="ReviewTitle" href="product_page.php?id=<?php se($review, "item_id") ?>"> <?php se($review, "name") ?></a></h5>
+                    <div class="Review">
+                        <p>Rating: <?php se($review, "rating"); ?> / 5</p>
+                        <p class="user_review"><?php se($review, "comment"); ?></p>
+                    </div>
                 </div>
             <?php endforeach; ?>
         <?php else : ?>
