@@ -83,6 +83,10 @@
             type = "avg_rating_desc";
         } else if (type == "avg_asc") {
             type = "avg_rating_asc";
+        } else if (type == "date_desc") {
+            type = "date_desc";
+        } else if (type == "date_asc") {
+            type = "date_asc";
         }
         let newUrl = url.replace(/sort=[^&]*/, "sort=" + type);
         window.location.href = newUrl;
@@ -92,10 +96,20 @@
         if (type == "mens") {
             let url = "mens-new.php?page=1&sort=manual";
             window.location.href = url;
+        } else if (type == "OOS"){
+            let url = window.location.href;
+            let newUrl = url.replace(/sort=[^&]*/, "sort=OOS");
+            window.location.href = newUrl;
         } else {
             let url = "womens-new.php?page=1&sort=manual";
             window.location.href = url;
         }
+    }
+
+    function category(category) {
+        let url = window.location.href;
+        let newUrl = url.replace(/category=[^&]*/, "category=" + category);
+        window.location.href = newUrl;
     }
 
 

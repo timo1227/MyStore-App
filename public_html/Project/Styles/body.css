@@ -107,6 +107,7 @@ img {
     max-height: 500px; */
 }
 .col{
+    max-width: 369px;
     flex:1 1 360px;
     display: flex;
     flex-direction: column;
@@ -189,12 +190,33 @@ img {
 }
 .footer{
     margin-top: 100px;
+    bottom: 0;
+    width: 100%;
     display: flex;
     justify-content: center;
 }
 .red-color{
     color: red;
     font-weight: 600;
+}
+.ReviewCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.user_review {
+    padding-left: 20px;
+    color: gray;
+    font-size: 1.2em;
+}
+.ReviewTitle{
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
 }
 #Roles_Toggle{
     margin: 10px auto;

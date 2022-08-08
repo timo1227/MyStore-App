@@ -95,7 +95,7 @@ if (file_exists('/app/vendor/autoload.php')) {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="<?php echo get_url('profile.php'); ?>">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="<?php echo get_url('order_history.php'); ?>">Order History</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('order_history.php'); ?>?sort=&category=">Order History</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
@@ -132,7 +132,7 @@ if (file_exists('/app/vendor/autoload.php')) {
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/add_item.php'); ?>">Add Item</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/list_items.php'); ?>">List Items</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('admin/admin_shop.php'); ?>?page=1&sort=manual">Admin Shop</a></li>
-                            <li><a class="dropdown-item" href="<?php echo get_url('admin/order_list.php'); ?>">All Orders</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('admin/order_list.php'); ?>?sort=&category=">All Orders</a></li>
                         </ul>
                     </li>
                 <?php endif; ?>
