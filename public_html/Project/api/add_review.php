@@ -42,6 +42,7 @@ if (empty($result)) {
 }
 
 //Get the average rating for the item
+// the4 08/07/2022
 $stmt = $db->prepare("SELECT AVG(rating) AS average FROM Ratings WHERE item_id = :iid");
 try {
     $stmt->execute([":iid" => $item_id]);
