@@ -50,7 +50,8 @@ if ($sort == "high") {
         flash("Error fetching items", "danger");
     }
 } elseif ($sort == "avg_rating_desc") {
-    $stmt = $db->prepare("SELECT id, name, description, cost, stock, image FROM RM_Items WHERE stock > 0 ORDER BY average_rating DESC");
+    $stmt = $db->prepare("SELECT * FROM RM_Items WHERE category = :category AND stock > 0 ORDER BY average_rating DESC");
+    $stmt->bindParam(":category", $category);
     try {
         $stmt->execute();
         $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -62,7 +63,8 @@ if ($sort == "high") {
         flash("Error fetching items", "danger");
     }
 } elseif ($sort == "avg_rating_asc") {
-    $stmt = $db->prepare("SELECT id, name, description, cost, stock, image FROM RM_Items WHERE stock > 0 ORDER BY average_rating ASC");
+    $stmt = $db->prepare("SELECT * FROM RM_Items WHERE category = :category AND stock > 0 ORDER BY average_rating ASC");
+    $stmt->bindParam(":category", $category);
     try {
         $stmt->execute();
         $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
