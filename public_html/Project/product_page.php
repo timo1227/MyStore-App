@@ -28,25 +28,25 @@ if (is_logged_in()) {
         $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if ($r) {
             $orders = $r;
-        }
-        // Check each order_id to see if the item is in the orderItems table
-        foreach ($orders as $order) {
-            $stmt = $db->prepare("SELECT * FROM OrderItems where order_id =:order_id");
-            try {
-                $stmt->execute([":order_id" => $order["id"]]);
-                $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                if ($r) {
-                    $orderItems = $r;
-                }
-                // Check each orderItem to see if the item is in the item table
-                foreach ($orderItems as $orderItem) {
-                    if ($orderItem["item_id"] == $id) {
-                        $purchased = true;
+            // Check each order_id to see if the item is in the orderItems table
+            foreach ($orders as $order) {
+                $stmt = $db->prepare("SELECT * FROM OrderItems where order_id =:order_id");
+                try {
+                    $stmt->execute([":order_id" => $order["id"]]);
+                    $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    if ($r) {
+                        $orderItems = $r;
                     }
+                    // Check each orderItem to see if the item is in the item table
+                    foreach ($orderItems as $orderItem) {
+                        if ($orderItem["item_id"] == $id) {
+                            $purchased = true;
+                        }
+                    }
+                } catch (PDOException $e) {
+                    error_log(var_export($e, true));
+                    flash("Error Loading Previous Orders", "danger");
                 }
-            } catch (PDOException $e) {
-                error_log(var_export($e, true));
-                flash("Error Loading Previous Orders", "danger");
             }
         }
     } catch (PDOException $e) {
