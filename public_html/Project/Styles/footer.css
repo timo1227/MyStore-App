@@ -1,0 +1,52 @@
+.Pagefooter{
+    display: grid;
+    padding: 0px 60px;
+    grid-template-areas: "support Info . . . newsLetter";
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 70px;
+    font-family: 'Roboto', sans-serif;
+    max-width: 1700px;
+}
+.Pagefooter > * > h3 {
+    font-size: 1.15em;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 15px;
+}
+.Pagefooter > * > ul {
+    padding-left: 0;
+}
+.Pagefooter > * > ul > li , p{
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 2px;
+    font-size: .75em;
+    color: rgb(97, 97, 97);;
+}
+.support{
+    grid-area: support;
+}
+.Info{
+    grid-area: Info;
+}
+.newsLetter{
+    grid-area: newsLetter;
+}
+.Pagefooter > * > ul{
+    list-style: none;
+}
+.socialMedia > ul > li{
+    display: inline-block;
+    margin: 10px;
+    text-align: end;
+}
+#newsletter-email{
+    width: 75%;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    border: 2px solid rgb(97, 97, 97);
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 12px;
+}

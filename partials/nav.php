@@ -63,22 +63,32 @@ if (file_exists('/app/vendor/autoload.php')) {
 
 ?>
 <!-- include css and js files -->
-<title>My Shop</title>
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
-<link rel="stylesheet" href="<?php echo get_url('Styles/nav.css'); ?>">
-<link rel="stylesheet" href="<?php echo get_url('Styles/body.css'); ?>">
-<link rel="apple-touch-icon" sizes="180x180" href="<?php echo get_url('Images'); ?>/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="<?php echo get_url('Images'); ?>/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="<?php echo get_url('Images'); ?>/favicon-16x16.png">
-<link rel="manifest" href="<?php echo get_url('Images'); ?>/site.webmanifest">
-<script src="<?php echo get_url('Scripts/helpers.js'); ?>"></script>
-<script src="<?php echo get_url('Scripts/script.js'); ?>" defer></script>
+
+<head>
+    <title>My Shop</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+    <!-- Font Awesome Kit -->
+    <script src="https://kit.fontawesome.com/66be150ce1.js" crossorigin="anonymous"></script>
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="<?php echo get_url('Styles/nav.css'); ?>">
+    <link rel="stylesheet" href="<?php echo get_url('Styles/body.css'); ?>">
+    <link rel="stylesheet" href="<?php echo get_url('Styles/footer.css'); ?>">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo get_url('Images'); ?>/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo get_url('Images'); ?>/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo get_url('Images'); ?>/favicon-16x16.png">
+    <link rel="manifest" href="<?php echo get_url('Images'); ?>/site.webmanifest">
+    <!-- Scripts -->
+    <script src="<?php echo get_url('Scripts/helpers.js'); ?>"></script>
+    <script src="<?php echo get_url('Scripts/script.js'); ?>" defer></script>
+</head>
 <nav class='navbar navbar-expand-lg navbar-light'>
-    <div class="container-fluid">
+    <div class="container-fluid bar">
         <a class="navbar-brand" href="<?php echo get_url('home.php'); ?>?page=1&sort=manual">
             <img src="<?php echo get_url('Images/LOGO.48'); ?>" alt="logo" class="logo">
         </a>

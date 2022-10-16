@@ -7,6 +7,7 @@ html{
 }
 body{
     padding: 0px 10px;
+    background-color: #fff;
 }
 h1{
     width: 100%;
@@ -15,6 +16,7 @@ h1{
 }
 .main{
     max-width: 1500px;
+    margin: 0 auto;
     margin-bottom: 100px;
 }
 .options{
@@ -32,7 +34,13 @@ h1{
 .cards{
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: fit-content;
+    /* Center Items */
+    justify-content: center;
+}
+.Cost{
+    font-weight: 600;
+    color: rgb(97, 97, 97);
 }
 form{
     margin: 100px auto;
