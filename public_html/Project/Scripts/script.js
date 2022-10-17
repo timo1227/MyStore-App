@@ -1,78 +1,3 @@
-// function filter(category) {
-//     $.ajax({
-//             url: "api/items.php",
-//             method: "GET",
-//             data: {
-//             category: category
-//             },
-//             success: function(data) {
-//                 flash(`Filtered to ${category}`, "success");
-//                 //Build the HTML for the items
-//                 var html = "";
-//                 $("#cards").html(html); //clear out the cards div
-//                 JSON.parse(data).forEach(function(item) {
-//                     var html = `
-//                         <div class="col">
-//                             <div class="card bg-light">
-//                             <div class "imgSlide">
-//                                 <div class="card-footer">
-//                                     <button onclick="add_to_cart(${item.id})" class="btn btn-primary btn-lg quickAddBtn">Add to Cart</button>
-//                                 </div>
-//                                 <a href="product_page.php?id=${item.id}">
-//                                      <img src="${item.image}" class="card-img-top" alt="...">
-//                                 </a>
-//                                 <div class="card-body">
-//                                     <h5 class="card-title">${item.name}</h5>
-//                                     Cost: ${item.cost}
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     `;
-//                     //append the item to the cards div
-//                     $("#cards").append(html);
-//                 });
-
-//             }
-//     });
-// }
-
-// function sort(cost) {
-//     $.ajax({
-//         url: "api/sort.php",
-//         method: "GET",
-//         data: {
-//         cost: cost
-//         },
-//         success: function(data) {
-//         flash(`Filtered to ${cost}`, "success");
-//         //Build the HTML for the items
-//         var html = "";
-//         $("#cards").html(html); //clear out the cards div
-//             JSON.parse(data).forEach(function(item) {
-//                 var html = `
-//                             <div class="col">
-//                                 <div class="card bg-light">
-//                                 <div class "imgSlide">
-//                                     <div class="card-footer">
-//                                         <button onclick="add_to_cart(${item.id})" class="btn btn-primary btn-lg quickAddBtn">Add to Cart</button>
-//                                     </div>
-//                                     <a href="product_page.php?id=${item.id}">
-//                                         <img src="${item.image}" class="card-img-top" alt="...">
-//                                     </a>
-//                                     <div class="card-body">
-//                                         <h5 class="card-title">${item.name}</h5>
-//                                         Cost: ${item.cost}
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                     `;
-//                 //append the item to the cards div
-//                 $("#cards").append(html);
-//             });
-
-//         }
-//     });
-// }
 function sort(type) {
     let url = window.location.href;
     if (type == "High->Low") {
@@ -132,9 +57,10 @@ function resizeNav() {
             nav.style.width = mainWidth + "px";
         }
     }else{
-        nav.style.width = "60%";
+        nav.style.width = "75%";
     }
 }
+
 
 
 const card = document.getElementsByClassName('card');
@@ -148,13 +74,13 @@ Array.from(card).forEach((img) => {
     img.onmouseout = () => {
         btn[cardIndex].classList.toggle('hovering');
     }
-    });
-    if(document.getElementsByTagName('h1').innerHTML != null) {
-        let h1 = document.getElementsByTagName("h1")[0].innerHTML;
-        document.title = h1;
-    }
-
-
+});
+// Set Page Title
+if(document.getElementsByTagName('h1').length > 0){
+    console.log(document.getElementsByTagName('h1'));
+    let h1 = document.getElementsByTagName("h1")[0].innerHTML;
+    document.title = h1;
+}
 //Center .bar on page load
 window.onload = function() {
     resizeNav();
