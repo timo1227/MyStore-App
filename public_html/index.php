@@ -1,6 +1,3 @@
-<?php echo "It works!"; ?>
-<html>
-<br>
-<a href="/Project/home">Project</a>
-
-</html>
+<?php
+// Redirect to the Project/home page
+header('Location: /Project/home.php');

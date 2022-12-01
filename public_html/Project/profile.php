@@ -132,47 +132,49 @@ try {
 $email = get_user_email();
 $username = get_username();
 ?>
-<h1>Edit Profile</h1>
-<form method="POST" onsubmit="return validate(this);">
-    <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Email/Username Reset</div>
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" value="<?php se($email); ?>" />
-    </div>
-    <div class="mb-3">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" value="<?php se($username); ?>" />
-    </div>
-    <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Profile Privacy</div>
-    <div class="mb-3">
-        <!-- <label for="Public/Private">Private</label>
-        <input type="radio" name="Public/Private" value="Private" />
-        <label for="Public">Public</label>
-        <input type="radio" name="Public/Private" value="Public" /> -->
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" value="Private" name="profile_privacy" <?php if ($is_Private) : echo "checked";
-                                                                                                                    endif; ?>>
-            <label class="form-check-label" for="profile_privacy">Private Profile</label>
+<div class="container-fluid main">
+    <h1>Edit Profile</h1>
+    <form method="POST" onsubmit="return validate(this);">
+        <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Email/Username Reset</div>
+        <div class="mb-3">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" value="<?php se($email); ?>" />
         </div>
+        <div class="mb-3">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" value="<?php se($username); ?>" />
+        </div>
+        <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Profile Privacy</div>
+        <div class="mb-3">
+            <!-- <label for="Public/Private">Private</label>
+            <input type="radio" name="Public/Private" value="Private" />
+            <label for="Public">Public</label>
+            <input type="radio" name="Public/Private" value="Public" /> -->
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" value="Private" name="profile_privacy" <?php if ($is_Private) : echo "checked";
+                                                                                                                        endif; ?>>
+                <label class="form-check-label" for="profile_privacy">Private Profile</label>
+            </div>
 
 
-    </div>
-    <!-- DO NOT PRELOAD PASSWORD -->
-    <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Password Reset</div>
-    <div class="mb-3">
-        <label for="cp">Current Password</label>
-        <input type="password" name="currentPassword" id="cp" />
-    </div>
-    <div class="mb-3">
-        <label for="np">New Password</label>
-        <input type="password" name="newPassword" id="np" />
-    </div>
-    <div class="mb-3">
-        <label for="conp">Confirm Password</label>
-        <input type="password" name="confirmPassword" id="conp" />
-    </div>
-    <input type="submit" value="Update Profile" name="save" />
-</form>
+        </div>
+        <!-- DO NOT PRELOAD PASSWORD -->
+        <div style="text-align:center; font-size:22px; margin: 10px 0px; font-weight: 700;">Password Reset</div>
+        <div class="mb-3">
+            <label for="cp">Current Password</label>
+            <input type="password" name="currentPassword" id="cp" />
+        </div>
+        <div class="mb-3">
+            <label for="np">New Password</label>
+            <input type="password" name="newPassword" id="np" />
+        </div>
+        <div class="mb-3">
+            <label for="conp">Confirm Password</label>
+            <input type="password" name="confirmPassword" id="conp" />
+        </div>
+        <input type="submit" value="Update Profile" name="save" />
+    </form>
+</div>
 
 <script>
     function validate(form) {

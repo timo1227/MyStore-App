@@ -122,7 +122,7 @@ $results = array_slice($results, $offset, $items_per_page);
                     <?php endif; ?>
                     <div class="card-body">
                         <h5 class="card-title"><?php se($item, "name"); ?></h5>
-                        Cost: $<?php se($item, "cost"); ?>
+                        <span class="Cost">Cost: $<?php se($item, "cost"); ?></span>
                     </div>
                 </div>
             </div>
